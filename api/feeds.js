@@ -1,7 +1,8 @@
 const db = require('../db');
+const axios = require('axios');
 
 function getAllFeeds(req, res, next) {
-  db.any('select * from feeds order by create_at desc limit 10')
+  db.any('select * from feeds order by update_at desc limit 10')
     .then((data) => {
       res.status(200)
         .json({
@@ -28,23 +29,51 @@ function getSingleFeed(req, res, next) {
 }
 
 function createFeed(req, res, next) {
-  db.none(
-    'insert into feeds(url, content, comment)' +
-      'values(${url}, ${content}, ${comment})',
-    req.body,
-  )
-    .then(() => {
-      res.status(200)
-        .json({
-          status: 'success',
-          message: 'Inserted one feed',
-        });
-    })
+  db.one('insert into feeds(url, comment)' + 'values(${url}, ${comment}) returning id', req.body).then((data) => {
+    getFullText(data.id, req.body.url);
+    res.status(200)
+      .json({
+        status: 'success',
+        message: `Inserted feed ${data.id}`,
+      });
+  })
     .catch(err => next(err));
 }
 
+
+function updateFeedInfo(id, data) {
+  db.none('update feeds set content=$2 ,title=$3, update_at=now() where id=$1', [parseInt(id), data.content, data.title])
+    .then(() => {
+      triggerHuginn(data.title);
+    })
+    .catch((err) => {
+      console.log(error);
+    });
+}
+
+function getFullText(id, url) {
+  axios.get(`https://mercury.postlight.com/parser?url=${url}`, {
+    headers: {
+      'x-api-key': process.env.MERCURY,
+    },
+  })
+    .then((res) => {
+      updateFeedInfo(id, res.data);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
+
+function triggerHuginn(title) {
+  axios.post(process.env.HUGINN_RSS, {
+    title,
+  });
+}
+
+
 function updateFeed(req, res, next) {
-  db.none('update feeds set id=$1, url=$2, content=$3, comment=$4', [parseInt(req.params.id), req.body.url, req.body.content, req.body.comment])
+  db.none('update feeds set content=$2 where id=$1', [parseInt(req.params.id), req.body.content])
     .then(() => {
       res.status(200)
         .json({
