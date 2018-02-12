@@ -1,4 +1,4 @@
-const db = require('../db');
+const db = require('../util/db');
 const axios = require('axios');
 
 function getAllFeeds(req, res, next) {
