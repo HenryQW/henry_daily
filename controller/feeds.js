@@ -1,6 +1,6 @@
 const db = require('../util/db');
-const fullText = require('./fullText');
-const huginn = require('./huginn');
+const fullText = require('../api/fullText');
+const huginn = require('../api/huginn');
 
 function getAllFeeds(req, res, next) {
   db.any('select * from feeds order by update_at desc limit 10')

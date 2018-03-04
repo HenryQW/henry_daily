@@ -1,4 +1,4 @@
-const feeds = require('../api/feeds');
+const feeds = require('../controller/feeds');
 const axios = require('axios');
 const phantom = require('phantom');
 const cheerio = require('cheerio');
@@ -17,52 +17,40 @@ const sites = {
   },
 };
 
-function getTextViaMercury(id, url) {
-  return new Promise((resolve, reject) => {
-    axios.get(`https://mercury.postlight.com/parser?url=${url}`, {
+async function getTextViaMercury(id, url) {
+  try {
+    const res = await axios.get(`https://mercury.postlight.com/parser?url=${url}`, {
       headers: {
         'x-api-key': process.env.MERCURY,
       },
-    })
-      .then((res) => {
-        resolve(feeds.updateFeedInfo(id, res.data));
-      })
-      .catch(err => reject(err));
-  });
+    });
+
+    feeds.updateFeedInfo(id, res.data);
+  } catch (error) {
+    console.log(error);
+  }
 }
 
-function getTextViaPhantomJS(id, url, selector) {
-  return new Promise((resolve, reject) => {
-    let _ph;
-    let _page;
-    phantom
-      .create()
-      .then((ph) => {
-        _ph = ph;
-        return _ph.createPage();
-      })
-      .then((page) => {
-        _page = page;
-        return _page.open(url);
-      })
-      .then(() => _page.property('content'))
-      .then((content) => {
-        _page.close();
-        _ph.exit();
-        const $ = cheerio.load(content, {
-          decodeEntities: false,
-        });
-        return {
-          content: $(selector).html(),
-          title: $('h1').html(),
-        };
-      })
-      .then((data) => {
-        resolve(data.title);
-        feeds.updateFeedInfo(id, data);
-      })
-      .catch(err => reject(err));
+async function getTextViaPhantomJS(id, url, selector) {
+  const instance = await phantom.create();
+  const page = await instance.createPage();
+  await page.on('onResourceRequested', (requestData) => {
+    console.info('Requesting', requestData.url);
   });
+
+  const status = await page.open(url);
+  const content = await page.property('content');
+
+  await instance.exit();
+
+  const $ = cheerio.load(content, {
+    decodeEntities: false,
+  });
+
+  const text = $(selector).html();
+  const title = $('h1').html();
+  return title;
+  // feeds.updateFeedInfo(id, data);
 }
 
 module.exports = {

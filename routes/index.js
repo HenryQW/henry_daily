@@ -1,8 +1,8 @@
 const express = require('express');
 
 const router = express.Router();
-const feeds = require('../api/feeds');
-const full = require('../api/fullText');
+const feeds = require('../controller/feeds');
+const fulltext = require('../api/fullText');
 const passport = require('passport');
 
 router.get('/api/v1/feeds', feeds.getAllFeeds);
@@ -24,11 +24,10 @@ const sites = {
 };
 
 router.get('/', (req, res, next) => {
-  // full.
-  full.getTextViaPhantomJS(67, 'http://36kr.com/p/5119669.html?ktm_source=feed', sites.kr.Path).then((data) => {
-    res.render('index', {
-      title: data,
-    });
+  const data = fulltext.getTextViaPhantomJS(67, 'http://36kr.com/p/5119669.html', sites.kr.Path);
+
+  res.render('index', {
+    title: data,
   });
 });
 
