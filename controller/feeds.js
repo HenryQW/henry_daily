@@ -1,18 +1,19 @@
 const db = require('../util/db');
 const fullText = require('../api/fullText');
-const huginn = require('../api/huginn');
+const huginn = require('../util/huginn');
 
-function getAllFeeds(req, res, next) {
-  db.any('select * from feeds order by update_at desc limit 10')
-    .then((data) => {
-      res.status(200)
-        .json({
-          status: 'success',
-          data,
-          message: 'Retrieved ALL Feeds',
-        });
-    })
-    .catch(err => next(err));
+async function getAllFeeds(req, res, next) {
+  try {
+    const data = await db.any('select * from feeds order by update_at desc limit 10');
+    res.status(200)
+      .json({
+        status: 'success',
+        data,
+        message: 'Retrieved ALL Feeds',
+      });
+  } catch (error) {
+    Error(error);
+  }
 }
 
 function getSingleFeed(req, res, next) {
@@ -29,62 +30,52 @@ function getSingleFeed(req, res, next) {
     .catch(err => next(err));
 }
 
-function createFeed(req, res, next) {
-  db.one('insert into feeds(url, comment) values(${url}, ${comment}) returning id', req.body).then((data) => {
-    if (req.body.fulltext) {
-      fullText.getTextViaMercury(data.id, req.body.url).then(() => {
-        res.status(200)
-          .json({
-            status: 'success',
-            message: `Inserted feed ${data.id} with fulltext extracted.`,
-          });
+async function createFeed(req, res, next) {
+  try {
+    const dbResult = await db.one('insert into feeds(url, comment) values(${url}, ${comment}) returning id', req.body);
+    res.status(200)
+      .json({
+        status: 'success',
+        message: `Inserted feed ${dbResult.id} with fulltext extracted.`,
       });
+
+    let text;
+    if (req.body.fulltext) {
+      text = await fullText.getTextViaMercury(dbResult.id, req.body.url);
     } else {
-      res.status(200)
-        .json({
-          status: 'success',
-          message: `Inserted feed ${data.id}.`,
-        });
+      text = await fullText.getTextViaMercury(dbResult.id, req.body.url);
     }
-  })
-    .catch(err => next(err));
+    updateFeed(dbResult.id, text);
+  } catch (error) {
+    next(error);
+  }
 }
 
 
-function updateFeedInfo(id, data) {
-  console.info('update');
-  db.none('update feeds set content=$2 ,title=$3, update_at=now() where id=$1', [parseInt(id), data.content, data.title])
-    .then(() => {
-      huginn.triggerHuginn(data.title);
-    })
-    .catch((err) => {
-      console.log(error);
-    });
+async function updateFeed(req, res, next) {
+  try {
+    await db.none('update feeds set content=$2 ,title=$3, update_at=now() where id=$1', [parseInt(id), data.content, data.title]);
+    res.status(200)
+      .json({
+        status: 'success',
+        message: `Updated feed ${req.body.id}`,
+      });
+  } catch (error) {
+    next(error);
+  }
 }
 
-function updateFeed(req, res, next) {
-  db.none('update feeds set content=$2 where id=$1', [parseInt(req.params.id), req.body.content])
-    .then(() => {
-      res.status(200)
-        .json({
-          status: 'success',
-          message: `Updated feed ${req.body.id}`,
-        });
-    })
-    .catch(err => next(err));
-}
-
-function removeFeed(req, res, next) {
-  const id = parseInt(req.params.id);
-  db.result('delete from feeds where id = $1', id)
-    .then(() => {
-      res.status(200)
-        .json({
-          status: 'success',
-          message: `Removed feed ${id}`,
-        });
-    })
-    .catch(err => next(err));
+async function removeFeed(req, res, next) {
+  try {
+    await db.result('delete from feeds where id = $1', parseInt(req.params.id));
+    res.status(200)
+      .json({
+        status: 'success',
+        message: `Removed feed ${parseInt(req.params.id)}`,
+      });
+  } catch (error) {
+    next(err);
+  }
 }
 
 module.exports = {
@@ -93,5 +84,4 @@ module.exports = {
   createFeed,
   updateFeed,
   removeFeed,
-  updateFeedInfo,
 };

@@ -23,8 +23,8 @@ const sites = {
   },
 };
 
-router.get('/', (req, res, next) => {
-  const data = fulltext.getTextViaPhantomJS(67, 'http://36kr.com/p/5119669.html', sites.kr.Path);
+router.get('/', async (req, res, next) => {
+  const data = await fulltext.getTextViaPhantomJS(67, 'http://36kr.com/p/5119669.html', sites.kr.Path);
 
   res.render('index', {
     title: data,
