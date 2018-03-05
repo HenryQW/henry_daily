@@ -3,31 +3,11 @@ const LocalStrategy = require('passport-localapikey').Strategy;
 
 const users = [{
   id: 1,
-  username: 'bob',
-  password: 'secret',
-  email: 'bob@example.com',
+  username: 'henry',
+  password: process.env.KEY,
+  email: 'henry@wangqiru.com',
   apikey: process.env.KEY,
 }];
-
-function findById(id, fn) {
-  const idx = id - 1;
-  if (users[idx]) {
-    fn(null, users[idx]);
-  } else {
-    fn(new Error(`User ${id} does not exist`));
-  }
-}
-
-function findByUsername(username, fn) {
-  for (let i = 0, len = users.length; i < len; i++) {
-    const user = users[i];
-    if (user.username === username) {
-      return fn(null, user);
-    }
-  }
-  return fn(null, null);
-}
-
 
 function findByApiKey(apikey, fn) {
   for (let i = 0; i < users.length; i++) {
@@ -39,13 +19,12 @@ function findByApiKey(apikey, fn) {
   return fn(null, null);
 }
 
-
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
-  findById(id, (err, user) => {
+  findByApiKey(id, (err, user) => {
     done(err, user);
   });
 });

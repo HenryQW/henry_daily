@@ -6,7 +6,6 @@ function triggerHuginn(title) {
   });
 }
 
-
 module.exports = {
   triggerHuginn,
 };

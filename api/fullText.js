@@ -1,21 +1,58 @@
 const axios = require('axios');
-const feeds = require('../api/feeds');
-const Promise = require('promise');
+const phantom = require('phantom');
+const cheerio = require('cheerio');
 
-function getMercuryText(id, url) {
-  return new Promise((resolve, reject) => {
-    axios.get(`https://mercury.postlight.com/parser?url=${url}`, {
+const whiteList = ['36kr.com', 'qdaily.com', 'tmtpost.com', 'technode.com', 'sspai.com'];
+
+const sites = {
+  kr: {
+    Name: '36kr.com',
+    Path: 'section[class=textblock]',
+  },
+};
+
+async function getTextViaMercury(id, url) {
+  try {
+    const res = await axios.get(`https://mercury.postlight.com/parser?url=${url}`, {
       headers: {
         'x-api-key': process.env.MERCURY,
       },
-    })
-      .then((res) => {
-        resolve(feeds.updateFeedInfo(id, res.data));
-      })
-      .catch(err => reject(err));
-  });
+    });
+    return res.data;
+  } catch (error) {
+    Error(error);
+  }
+  return null;
+}
+
+async function getTextViaPhantomJS(id, url, selector) {
+  try {
+    const instance = await phantom.create();
+    const page = await instance.createPage();
+
+    await page.open(url);
+    const content = await page.property('content');
+
+    page.close();
+    instance.exit();
+
+    const $ = cheerio.load(content, {
+      decodeEntities: false,
+    });
+
+    const data = {
+      content: $(selector.content).html(),
+      title: $(selector.title).html(),
+    };
+
+    return data;
+  } catch (error) {
+    Error(error);
+  }
+  return null;
 }
 
 module.exports = {
-  getMercuryText,
+  getTextViaMercury,
+  getTextViaPhantomJS,
 };
