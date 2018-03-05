@@ -6,8 +6,9 @@ const whiteList = ['36kr.com', 'qdaily.com', 'tmtpost.com', 'technode.com', 'ssp
 
 const sites = {
   kr: {
-    Name: '36kr.com',
-    Path: 'section[class=textblock]',
+    name: '36kr.com',
+    title: 'h1',
+    content: 'section[class=textblock]',
   },
 };
 
