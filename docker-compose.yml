@@ -1,0 +1,8 @@
+version: "3"  
+services:
+    henry_daily:
+      container_name: henry_daily
+      image: wangqiru/henry-daily:latest
+      ports:
+        - 3005:3000
+      restart: always

@@ -24,6 +24,7 @@
     "passport-localapikey": "0.0.3",
     "pg-promise": "^7.4.1",
     "phantom": "^4.0.12",
+    "phantomjs-prebuilt": "^2.1.16",
     "promise": "^8.0.1",
     "request": "^2.83.0",
     "serve-favicon": "~2.4.5"
