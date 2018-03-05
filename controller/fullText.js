@@ -4,39 +4,36 @@ const cheerio = require('cheerio');
 const urlUtil = require('url');
 const siteRules = require('../config/siteRules');
 
-const {
-  rules,
-} = siteRules;
 
-async function getTextViaMercury(id, url) {
-  try {
-    const res = await axios.get(`https://mercury.postlight.com/parser?url=${url}`, {
-      headers: {
-        'x-api-key': process.env.MERCURY,
-      },
-    });
-    return res.data;
-  } catch (error) {
-    Error(error);
-  }
-  return null;
-}
-
-function generateSelector(url) {
+async function dispatch(url) {
   const {
     hostname,
   } = urlUtil.parse(url);
 
+  const {
+    rules,
+  } = siteRules;
+
+  let selector = null;
+
   for (let i = 0, len = rules.length; i < len; i++) {
     if (rules[i].hostname === hostname) {
-      return {
+      selector = {
         title: rules[i].title,
         content: rules[i].content,
         sanitiser: rules[i].sanitiser,
       };
+      break;
     }
   }
+
+  if (selector === null) {
+    return await getTextViaMercury(url);
+  }
+  const content = await getTextViaPhantomJS(url);
+  return await startCheerioProcess(content, selector);
 }
+
 
 async function startCheerioProcess(content, selector) {
   const $ = cheerio.load(content, {
@@ -56,33 +53,38 @@ async function startCheerioProcess(content, selector) {
 }
 
 
-async function getTextViaPhantomJS(id, url) {
+async function getTextViaPhantomJS(url) {
   try {
-    const selector = generateSelector(url);
+    const instance = await phantom.create();
+    const page = await instance.createPage();
 
-    if (selector != null) {
-      const instance = await phantom.create();
-      const page = await instance.createPage();
+    await page.open(url);
+    const content = await page.property('content');
 
-      await page.open(url);
-      const content = await page.property('content');
+    page.close();
+    instance.exit();
 
-      page.close();
-      instance.exit();
-      const data = await startCheerioProcess(content, selector);
-      return data;
-    }
-    return {
-      title: 'selector is not defined',
-    };
+    return content;
   } catch (error) {
     Error(error);
   }
-  return null;
+}
+
+async function getTextViaMercury(url) {
+  try {
+    const res = await axios.get(`https://mercury.postlight.com/parser?url=${url}`, {
+      headers: {
+        'x-api-key': process.env.MERCURY,
+      },
+    });
+    return res.data;
+  } catch (error) {
+    Error(error);
+  }
 }
 
 module.exports = {
   getTextViaMercury,
   getTextViaPhantomJS,
-  generateSelector,
+  dispatch,
 };

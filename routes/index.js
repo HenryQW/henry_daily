@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const feeds = require('../controller/feeds');
-const fulltext = require('../helper/fullText');
+const fulltext = require('../controller/fullText');
 const passport = require('passport');
 
 router.get('/api/v1/feeds', feeds.getAllFeeds);

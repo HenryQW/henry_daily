@@ -2,11 +2,10 @@ const passport = require('passport');
 const LocalStrategy = require('passport-localapikey').Strategy;
 const userConfig = require('../config/userConfig');
 
-const {
-  users,
-} = userConfig;
-
 function findByApiKey(apikey, fn) {
+  const {
+    users,
+  } = userConfig;
   for (let i = 0; i < users.length; i++) {
     const user = users[i];
     if (user.apikey === apikey) {

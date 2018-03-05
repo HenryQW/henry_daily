@@ -1,5 +1,5 @@
 const db = require('../helper/db');
-const fullText = require('../helper/fullText');
+const fullText = require('../controller/fullText');
 const huginn = require('../helper/huginn');
 
 async function getAllFeeds(req, res, next) {
@@ -35,12 +35,7 @@ async function createFeed(req, res, next) {
     const dbResult = await db.one(`insert into ${process.env.DB_FEEDS_TABLE} (url, comment) values ('${req.body.url}', '${req.body.comment}') returning id`);
     // const dbResult = await db.one('insert into feeds(url, comment) values(${url}, ${comment}) returning id', req.body);
 
-    let text;
-    if (req.body.fulltext) {
-      text = await fullText.getTextViaMercury(dbResult.id, req.body.url);
-    } else {
-      text = await fullText.getTextViaPhantomJS(dbResult.id, req.body.url);
-    }
+    const text = await fullText.dispatch(req.body.url);
 
     await updateFeedContent({
       id: dbResult.id,
