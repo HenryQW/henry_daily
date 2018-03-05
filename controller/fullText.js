@@ -5,36 +5,6 @@ const urlUtil = require('url');
 const siteRules = require('../config/siteRules');
 
 
-async function dispatch(url) {
-  const {
-    hostname,
-  } = urlUtil.parse(url);
-
-  const {
-    rules,
-  } = siteRules;
-
-  let selector = null;
-
-  for (let i = 0, len = rules.length; i < len; i++) {
-    if (rules[i].hostname === hostname) {
-      selector = {
-        title: rules[i].title,
-        content: rules[i].content,
-        sanitiser: rules[i].sanitiser,
-      };
-      break;
-    }
-  }
-
-  if (selector === null) {
-    return await getTextViaMercury(url);
-  }
-  const content = await getTextViaPhantomJS(url);
-  return await startCheerioProcess(content, selector);
-}
-
-
 async function startCheerioProcess(content, selector) {
   const $ = cheerio.load(content, {
     decodeEntities: false,
@@ -68,7 +38,9 @@ async function getTextViaPhantomJS(url) {
   } catch (error) {
     Error(error);
   }
+  return null;
 }
+
 
 async function getTextViaMercury(url) {
   try {
@@ -81,7 +53,39 @@ async function getTextViaMercury(url) {
   } catch (error) {
     Error(error);
   }
+  return null;
 }
+
+
+async function dispatch(url) {
+  const {
+    hostname,
+  } = urlUtil.parse(url);
+
+  const {
+    rules,
+  } = siteRules;
+
+  let selector = null;
+
+  for (let i = 0, len = rules.length; i < len; i++) {
+    if (rules[i].hostname === hostname) {
+      selector = {
+        title: rules[i].title,
+        content: rules[i].content,
+        sanitiser: rules[i].sanitiser,
+      };
+      break;
+    }
+  }
+
+  if (selector === null) {
+    return getTextViaMercury(url);
+  }
+  const content = await getTextViaPhantomJS(url);
+  return startCheerioProcess(content, selector);
+}
+
 
 module.exports = {
   getTextViaMercury,

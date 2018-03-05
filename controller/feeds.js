@@ -2,6 +2,7 @@ const db = require('../helper/db');
 const fullText = require('../controller/fullText');
 const huginn = require('../helper/huginn');
 
+
 async function getAllFeeds(req, res, next) {
   try {
     const data = await db.any(`select * from ${process.env.DB_FEEDS_TABLE} order by update_at desc limit 10`);
@@ -16,6 +17,7 @@ async function getAllFeeds(req, res, next) {
   }
 }
 
+
 async function getSingleFeed(req, res, next) {
   try {
     const data = await db.one(`select * from ${process.env.DB_FEEDS_TABLE} where id = ${parseInt(req.params.id)}`);
@@ -29,6 +31,17 @@ async function getSingleFeed(req, res, next) {
     next(error);
   }
 }
+
+
+async function updateFeedContent(req) {
+  try {
+    await db.none(`update ${process.env.DB_FEEDS_TABLE} set content='${req.content}' ,title='${req.title}', update_at=now() where id=${parseInt(req.id)}`);
+  } catch (error) {
+    Error(error);
+  }
+  huginn.triggerHuginn(req.title);
+}
+
 
 async function createFeed(req, res, next) {
   try {
@@ -53,15 +66,6 @@ async function createFeed(req, res, next) {
   }
 }
 
-async function updateFeedContent(req) {
-  try {
-    await db.none(`update ${process.env.DB_FEEDS_TABLE} set content='${req.content}' ,title='${req.title}', update_at=now() where id=${parseInt(req.id)}`);
-  } catch (error) {
-    Error(error);
-  }
-  huginn.triggerHuginn(req.title);
-}
-
 
 async function updateFeed(req, res, next) {
   try {
@@ -76,6 +80,7 @@ async function updateFeed(req, res, next) {
   }
 }
 
+
 async function removeFeed(req, res, next) {
   try {
     await db.result(`delete from ${process.env.DB_FEEDS_TABLE} where id = ${parseInt(req.params.id)}`);
@@ -85,9 +90,10 @@ async function removeFeed(req, res, next) {
         message: `Removed feed ${parseInt(req.params.id)}`,
       });
   } catch (error) {
-    next(err);
+    next(error);
   }
 }
+
 
 module.exports = {
   getAllFeeds,

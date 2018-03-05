@@ -15,15 +15,18 @@ function findByApiKey(apikey, fn) {
   return fn(null, null);
 }
 
+
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
+
 
 passport.deserializeUser((id, done) => {
   findByApiKey(id, (err, user) => {
     done(err, user);
   });
 });
+
 
 passport.use(new LocalStrategy(((apikey, done) => {
   process.nextTick(() => {
@@ -40,4 +43,6 @@ passport.use(new LocalStrategy(((apikey, done) => {
     });
   });
 })));
+
+
 module.exports = passport;
