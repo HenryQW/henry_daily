@@ -33,13 +33,14 @@ async function getSingleFeed(req, res, next) {
 }
 
 
-async function updateFeedContent(req) {
+async function updateFeedContent(id, url) {
+  const result = await fullText.dispatch(url);
   try {
-    await db.none(`update ${process.env.DB_FEEDS_TABLE} set content='${req.content}' ,title='${req.title}', update_at=now() where id=${parseInt(req.id)}`);
+    await db.none(`update ${process.env.DB_FEEDS_TABLE} set content='${result.content}' ,title='${result.title}', update_at=now() where id=${parseInt(id)}`);
   } catch (error) {
     Error(error);
   }
-  huginn.triggerHuginn(req.title);
+  huginn.triggerHuginn(result.title);
 }
 
 
@@ -48,18 +49,12 @@ async function createFeed(req, res, next) {
     const dbResult = await db.one(`insert into ${process.env.DB_FEEDS_TABLE} (url, comment) values ('${req.body.url}', '${req.body.comment}') returning id`);
     // const dbResult = await db.one('insert into feeds(url, comment) values(${url}, ${comment}) returning id', req.body);
 
-    const text = await fullText.dispatch(req.body.url);
-
-    await updateFeedContent({
-      id: dbResult.id,
-      title: text.title,
-      content: text.content,
-    });
+    updateFeedContent(dbResult.id, req.body.url);
 
     res.status(200)
       .json({
         status: 'success',
-        message: `Inserted feed ${dbResult.id} with fulltext extracted.`,
+        message: `Inserted feed ${dbResult.id}.`,
       });
   } catch (error) {
     next(error);
