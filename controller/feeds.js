@@ -45,16 +45,30 @@ async function createFeed(req, res, next) {
     } else {
       text = await fullText.getTextViaMercury(dbResult.id, req.body.url);
     }
-    updateFeed(dbResult.id, text);
+    const request = {
+      id: dbResult.id,
+      title: text.title,
+      content: text.content,
+    };
+    updateFeedContent(request);
   } catch (error) {
     next(error);
   }
 }
 
+async function updateFeedContent(req) {
+  try {
+    await db.none('update feeds set content=$2 ,title=$3, update_at=now() where id=$1', [parseInt(req.id), req.content, req.title]);
+  } catch (error) {
+    Error(error);
+  }
+  huginn.triggerHuginn(req.title);
+}
+
 
 async function updateFeed(req, res, next) {
   try {
-    await db.none('update feeds set content=$2 ,title=$3, update_at=now() where id=$1', [parseInt(id), data.content, data.title]);
+    await db.none('update feeds set content=$2 ,title=$3, update_at=now() where id=$1', [parseInt(req.id), req.content, req.title]);
     res.status(200)
       .json({
         status: 'success',
