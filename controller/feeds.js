@@ -1,6 +1,6 @@
-const db = require('../util/db');
-const fullText = require('../api/fullText');
-const huginn = require('../util/huginn');
+const db = require('../helper/db');
+const fullText = require('../helper/fullText');
+const huginn = require('../helper/huginn');
 
 async function getAllFeeds(req, res, next) {
   try {
@@ -34,11 +34,6 @@ async function createFeed(req, res, next) {
   try {
     const dbResult = await db.one(`insert into ${process.env.DB_FEEDS_TABLE} (url, comment) values ('${req.body.url}', '${req.body.comment}') returning id`);
     // const dbResult = await db.one('insert into feeds(url, comment) values(${url}, ${comment}) returning id', req.body);
-    res.status(200)
-      .json({
-        status: 'success',
-        message: `Inserted feed ${dbResult.id} with fulltext extracted.`,
-      });
 
     let text;
     if (req.body.fulltext) {
@@ -46,12 +41,18 @@ async function createFeed(req, res, next) {
     } else {
       text = await fullText.getTextViaPhantomJS(dbResult.id, req.body.url);
     }
-    const request = {
+
+    await updateFeedContent({
       id: dbResult.id,
       title: text.title,
       content: text.content,
-    };
-    updateFeedContent(request);
+    });
+
+    res.status(200)
+      .json({
+        status: 'success',
+        message: `Inserted feed ${dbResult.id} with fulltext extracted.`,
+      });
   } catch (error) {
     next(error);
   }

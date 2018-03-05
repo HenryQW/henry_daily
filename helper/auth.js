@@ -1,13 +1,10 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-localapikey').Strategy;
+const userConfig = require('../config/userConfig');
 
-const users = [{
-  id: 1,
-  username: 'henry',
-  password: process.env.KEY,
-  email: 'henry@wangqiru.com',
-  apikey: process.env.KEY,
-}];
+const {
+  users,
+} = userConfig;
 
 function findByApiKey(apikey, fn) {
   for (let i = 0; i < users.length; i++) {
