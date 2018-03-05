@@ -1,15 +1,11 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-localapikey').Strategy;
-
-const users = [{
-  id: 1,
-  username: 'henry',
-  password: process.env.KEY,
-  email: 'henry@wangqiru.com',
-  apikey: process.env.KEY,
-}];
+const userConfig = require('../config/userConfig');
 
 function findByApiKey(apikey, fn) {
+  const {
+    users,
+  } = userConfig;
   for (let i = 0; i < users.length; i++) {
     const user = users[i];
     if (user.apikey === apikey) {
@@ -19,15 +15,18 @@ function findByApiKey(apikey, fn) {
   return fn(null, null);
 }
 
+
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
+
 
 passport.deserializeUser((id, done) => {
   findByApiKey(id, (err, user) => {
     done(err, user);
   });
 });
+
 
 passport.use(new LocalStrategy(((apikey, done) => {
   process.nextTick(() => {
@@ -44,4 +43,6 @@ passport.use(new LocalStrategy(((apikey, done) => {
     });
   });
 })));
+
+
 module.exports = passport;

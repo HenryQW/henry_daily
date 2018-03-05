@@ -1,10 +1,11 @@
-const db = require('../util/db');
-const fullText = require('../api/fullText');
-const huginn = require('../util/huginn');
+const db = require('../helper/db');
+const fullText = require('../controller/fullText');
+const huginn = require('../helper/huginn');
+
 
 async function getAllFeeds(req, res, next) {
   try {
-    const data = await db.any('select * from feeds order by update_at desc limit 10');
+    const data = await db.any(`select * from ${process.env.DB_FEEDS_TABLE} order by update_at desc limit 10`);
     res.status(200)
       .json({
         status: 'success',
@@ -12,53 +13,29 @@ async function getAllFeeds(req, res, next) {
         message: 'Retrieved ALL Feeds',
       });
   } catch (error) {
-    Error(error);
+    next(error);
   }
 }
 
-function getSingleFeed(req, res, next) {
-  const id = parseInt(req.params.id);
-  db.one('select * from feeds where id = $1', id)
-    .then((data) => {
-      res.status(200)
-        .json({
-          status: 'success',
-          data,
-          message: `Retrieved feed ${id}`,
-        });
-    })
-    .catch(err => next(err));
-}
 
-async function createFeed(req, res, next) {
+async function getSingleFeed(req, res, next) {
   try {
-    const dbResult = await db.one('insert into feeds(url, comment) values(${url}, ${comment}) returning id', req.body);
+    const data = await db.one(`select * from ${process.env.DB_FEEDS_TABLE} where id = ${parseInt(req.params.id)}`);
     res.status(200)
       .json({
         status: 'success',
-        message: `Inserted feed ${dbResult.id} with fulltext extracted.`,
+        data,
+        message: `Retrieved feed ${parseInt(req.params.id)}`,
       });
-
-    let text;
-    if (req.body.fulltext) {
-      text = await fullText.getTextViaMercury(dbResult.id, req.body.url);
-    } else {
-      text = await fullText.getTextViaMercury(dbResult.id, req.body.url);
-    }
-    const request = {
-      id: dbResult.id,
-      title: text.title,
-      content: text.content,
-    };
-    updateFeedContent(request);
   } catch (error) {
     next(error);
   }
 }
 
+
 async function updateFeedContent(req) {
   try {
-    await db.none('update feeds set content=$2 ,title=$3, update_at=now() where id=$1', [parseInt(req.id), req.content, req.title]);
+    await db.none(`update ${process.env.DB_FEEDS_TABLE} set content='${req.content}' ,title='${req.title}', update_at=now() where id=${parseInt(req.id)}`);
   } catch (error) {
     Error(error);
   }
@@ -66,9 +43,33 @@ async function updateFeedContent(req) {
 }
 
 
+async function createFeed(req, res, next) {
+  try {
+    const dbResult = await db.one(`insert into ${process.env.DB_FEEDS_TABLE} (url, comment) values ('${req.body.url}', '${req.body.comment}') returning id`);
+    // const dbResult = await db.one('insert into feeds(url, comment) values(${url}, ${comment}) returning id', req.body);
+
+    const text = await fullText.dispatch(req.body.url);
+
+    await updateFeedContent({
+      id: dbResult.id,
+      title: text.title,
+      content: text.content,
+    });
+
+    res.status(200)
+      .json({
+        status: 'success',
+        message: `Inserted feed ${dbResult.id} with fulltext extracted.`,
+      });
+  } catch (error) {
+    next(error);
+  }
+}
+
+
 async function updateFeed(req, res, next) {
   try {
-    await db.none('update feeds set content=$2 ,title=$3, update_at=now() where id=$1', [parseInt(req.id), req.content, req.title]);
+    await db.none(`update ${process.env.DB_FEEDS_TABLE} set content='${req.params.content}' ,title='${req.params.title}', update_at=now() where id=${parseInt(req.params.id)}`);
     res.status(200)
       .json({
         status: 'success',
@@ -79,18 +80,20 @@ async function updateFeed(req, res, next) {
   }
 }
 
+
 async function removeFeed(req, res, next) {
   try {
-    await db.result('delete from feeds where id = $1', parseInt(req.params.id));
+    await db.result(`delete from ${process.env.DB_FEEDS_TABLE} where id = ${parseInt(req.params.id)}`);
     res.status(200)
       .json({
         status: 'success',
         message: `Removed feed ${parseInt(req.params.id)}`,
       });
   } catch (error) {
-    next(err);
+    next(error);
   }
 }
+
 
 module.exports = {
   getAllFeeds,

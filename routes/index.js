@@ -2,7 +2,7 @@ const express = require('express');
 
 const router = express.Router();
 const feeds = require('../controller/feeds');
-const fulltext = require('../api/fullText');
+const fullText = require('../controller/fullText');
 const passport = require('passport');
 
 router.get('/api/v1/feeds', feeds.getAllFeeds);
@@ -12,22 +12,12 @@ router.put('/api/v1/feeds/:id', passport.authenticate('localapikey'), feeds.upda
 router.delete('/api/v1/feeds/:id', passport.authenticate('localapikey'), feeds.removeFeed);
 router.get('/api/v1/feeds/delete/:id', passport.authenticate('localapikey'), feeds.removeFeed);
 
-const sites = {
-  kr: {
-    Name: '36kr.com',
-    Path: 'section[class=textblock]',
-  },
-  Microsoft: {
-    Name: 'Microsoft',
-    ID: 'DEF',
-  },
-};
 
 router.get('/', async (req, res, next) => {
-  const data = await fulltext.getTextViaPhantomJS(67, 'http://36kr.com/p/5119669.html', sites.kr.Path);
+  const data = await fullText.generateSelector('https://cn.technode.com/post/2018-03-05/jingchi-baidu-apollo/');
 
   res.render('index', {
-    title: data,
+    title: data.title + data.content,
   });
 });
 
