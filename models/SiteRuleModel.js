@@ -5,6 +5,10 @@ module.exports = function (sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true,
     },
-    description: DataTypes.TEXT,
+    name: DataTypes.TEXT,
+    hostname: DataTypes.TEXT,
+    title: DataTypes.TEXT,
+    content: DataTypes.TEXT,
+    sanitiser: DataTypes.ARRAY(DataTypes.TEXT),
   });
 };

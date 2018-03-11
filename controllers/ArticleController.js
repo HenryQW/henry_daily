@@ -1,10 +1,10 @@
 const db = require('../models');
 
-const fullText = require('../controller/fullText');
-const huginn = require('../helper/huginn');
+const fullText = require('../controllers/fullTextController');
+const huginn = require('../helpers/huginn');
 
 
-async function getAllArticles(req, res, next) {
+async function getAllArticles(req, res) {
   try {
     const data = await db.Article.findAll();
     res.status(200)
@@ -14,12 +14,12 @@ async function getAllArticles(req, res, next) {
         message: 'Retrieved ALL Articles',
       });
   } catch (error) {
-    next(error);
+    Error(error);
   }
 }
 
 
-async function getSingleArticle(req, res, next) {
+async function getSingleArticle(req, res) {
   try {
     const data = await db.Article.findById(parseInt(req.params.id));
     res.status(200)
@@ -29,7 +29,7 @@ async function getSingleArticle(req, res, next) {
         message: `Retrieved Article ${parseInt(req.params.id)}`,
       });
   } catch (error) {
-    next(error);
+    Error(error);
   }
 }
 
@@ -48,10 +48,10 @@ async function extractArticleContent(id, url) {
   } catch (error) {
     Error(error);
   }
-  // huginn.triggerHuginn(result.title);
+  huginn.triggerHuginn(result.title);
 }
 
-async function createArticle(req, res, next) {
+async function createArticle(req, res) {
   try {
     const dbResult = await db.Article.create({
       url: req.body.url,
@@ -66,19 +66,19 @@ async function createArticle(req, res, next) {
         message: `Inserted Article ${dbResult.id}.`,
       });
   } catch (error) {
-    next(error);
+    Error(error);
   }
 }
 
 
-async function updateArticle(req, res, next) {
+async function updateArticle(req, res) {
   try {
     await db.Article.update({
-      content: req.params.content,
-      title: req.params.title,
+      content: req.body.content,
+      title: req.body.title,
     }, {
       where: {
-        id: parseInt(id),
+        id: parseInt(req.body.id),
       },
     });
 
@@ -88,16 +88,16 @@ async function updateArticle(req, res, next) {
         message: `Updated Article ${req.body.id}`,
       });
   } catch (error) {
-    next(error);
+    Error(error);
   }
 }
 
 
-async function removeArticle(req, res, next) {
+async function removeArticle(req, res) {
   try {
     await db.Article.destroy({
       where: {
-        id: parseInt(id),
+        id: parseInt(req.params.id),
       },
     });
 
@@ -107,7 +107,7 @@ async function removeArticle(req, res, next) {
         message: `Removed Article ${parseInt(req.params.id)}`,
       });
   } catch (error) {
-    next(error);
+    Error(error);
   }
 }
 

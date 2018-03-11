@@ -2,7 +2,7 @@ const axios = require('axios');
 const phantom = require('phantom');
 const cheerio = require('cheerio');
 const urlUtil = require('url');
-const siteRules = require('../config/siteRules');
+const siteRule = require('./SiteRuleController');
 
 
 async function startCheerioProcess(content, selector) {
@@ -11,6 +11,7 @@ async function startCheerioProcess(content, selector) {
   });
 
   const title = $(selector.title).html().trim();
+
 
   selector.sanitiser.forEach((sanitiser) => {
     $(sanitiser).remove();
@@ -62,22 +63,7 @@ async function dispatch(url) {
     hostname,
   } = urlUtil.parse(url);
 
-  const {
-    rules,
-  } = siteRules;
-
-  let selector = null;
-
-  for (let i = 0, len = rules.length; i < len; i++) {
-    if (rules[i].hostname === hostname) {
-      selector = {
-        title: rules[i].title,
-        content: rules[i].content,
-        sanitiser: rules[i].sanitiser,
-      };
-      break;
-    }
-  }
+  const selector = await siteRule.getSingleSiteRuleByHostname(hostname);
 
   if (selector === null) {
     return getTextViaMercury(url);
