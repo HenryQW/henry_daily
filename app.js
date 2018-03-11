@@ -6,6 +6,10 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
+require('dotenv').config();
+
+const article = require('./routes/article');
+const siteRule = require('./routes/siteRule');
 const index = require('./routes/index');
 
 const app = express();
@@ -24,8 +28,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.set('json spaces', 2);
 
 app.use('/', index);
+app.use('/api', index);
+app.use('/api/v1', index);
+
+app.use('/api/v1/article', article);
+// app.use('/api/v1/siterule', siteRule);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -45,6 +55,6 @@ app.use((err, req, res) => {
   res.render('error');
 });
 
-require('./helper/auth.js');
+require('./helpers/auth.js');
 
 module.exports = app;
