@@ -6,7 +6,9 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 
-const feed = require('./routes/feed');
+require('dotenv').config();
+
+const article = require('./routes/article');
 const index = require('./routes/index');
 
 const app = express();
@@ -31,7 +33,7 @@ app.use('/', index);
 app.use('/api', index);
 app.use('/api/v1', index);
 
-app.use('/api/v1/feeds', feed);
+app.use('/api/v1/article', article);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

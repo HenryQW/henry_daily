@@ -5,6 +5,7 @@ module.exports = function (sequelize, DataTypes) {
       primaryKey: true,
       autoIncrement: true,
     },
+    url: DataTypes.TEXT,
     title: DataTypes.TEXT,
     content: DataTypes.TEXT,
     comment: DataTypes.TEXT,

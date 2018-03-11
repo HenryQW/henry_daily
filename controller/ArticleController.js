@@ -34,7 +34,7 @@ async function getSingleArticle(req, res, next) {
 }
 
 
-async function updateArticleContent(id, url) {
+async function extractArticleContent(id, url) {
   const result = await fullText.dispatch(url);
   try {
     await db.Article.update({
@@ -42,7 +42,7 @@ async function updateArticleContent(id, url) {
       title: result.title,
     }, {
       where: {
-        _id: parseInt(id),
+        id: parseInt(id),
       },
     });
   } catch (error) {
@@ -51,58 +51,72 @@ async function updateArticleContent(id, url) {
   // huginn.triggerHuginn(result.title);
 }
 
-// TODO: convert methods
+async function createArticle(req, res, next) {
+  try {
+    const dbResult = await db.Article.create({
+      url: req.body.url,
+      comment: req.body.comment,
+    });
 
-// async function createArticle(req, res, next) {
-//   try {
-//     const dbResult = await db.one(`insert into ${process.env.DB_FEEDS_TABLE} (url, comment) values ('${req.body.url}', '${req.body.comment}') returning id`);
-//     // const dbResult = await db.one('insert into feeds(url, comment) values(${url}, ${comment}) returning id', req.body);
+    extractArticleContent(dbResult.id, req.body.url);
 
-//     updateFeedContent(dbResult.id, req.body.url);
-
-//     res.status(200)
-//       .json({
-//         status: 'success',
-//         message: `Inserted Article ${dbResult.id}.`,
-//       });
-//   } catch (error) {
-//     next(error);
-//   }
-// }
-
-
-// async function updateArticle(req, res, next) {
-//   try {
-//     await db.none(`update ${process.env.DB_FEEDS_TABLE} set content='${req.params.content}' ,title='${req.params.title}', update_at=now() where id=${parseInt(req.params.id)}`);
-//     res.status(200)
-//       .json({
-//         status: 'success',
-//         message: `Updated Article ${req.body.id}`,
-//       });
-//   } catch (error) {
-//     next(error);
-//   }
-// }
+    res.status(200)
+      .json({
+        status: 'success',
+        message: `Inserted Article ${dbResult.id}.`,
+      });
+  } catch (error) {
+    next(error);
+  }
+}
 
 
-// async function removeArticle(req, res, next) {
-//   try {
-//     await db.result(`delete from ${process.env.DB_FEEDS_TABLE} where id = ${parseInt(req.params.id)}`);
-//     res.status(200)
-//       .json({
-//         status: 'success',
-//         message: `Removed Article ${parseInt(req.params.id)}`,
-//       });
-//   } catch (error) {
-//     next(error);
-//   }
-// }
+async function updateArticle(req, res, next) {
+  try {
+    await db.Article.update({
+      content: req.params.content,
+      title: req.params.title,
+    }, {
+      where: {
+        id: parseInt(id),
+      },
+    });
+
+    res.status(200)
+      .json({
+        status: 'success',
+        message: `Updated Article ${req.body.id}`,
+      });
+  } catch (error) {
+    next(error);
+  }
+}
+
+
+async function removeArticle(req, res, next) {
+  try {
+    await db.Article.destroy({
+      where: {
+        id: parseInt(id),
+      },
+    });
+
+    res.status(200)
+      .json({
+        status: 'success',
+        message: `Removed Article ${parseInt(req.params.id)}`,
+      });
+  } catch (error) {
+    next(error);
+  }
+}
 
 
 module.exports = {
   getAllArticles,
   getSingleArticle,
-  updateArticleContent,
-  // updateFeed,
-  // removeFeed,
+  createArticle,
+  extractArticleContent,
+  updateArticle,
+  removeArticle,
 };
