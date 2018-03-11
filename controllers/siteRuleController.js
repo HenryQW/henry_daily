@@ -16,21 +16,6 @@ async function getAllSiteRules(req, res) {
   }
 }
 
-
-async function getSingleSiteRule(req, res) {
-  try {
-    const data = await db.SiteRule.findById(parseInt(req.params.id));
-    res.status(200)
-      .json({
-        status: 'success',
-        data,
-        message: `Retrieved SiteRule ${parseInt(req.params.id)}`,
-      });
-  } catch (error) {
-    Error(error);
-  }
-}
-
 async function getSingleSiteRuleByHostname(hostname) {
   try {
     return db.SiteRule.findOne({
@@ -38,6 +23,20 @@ async function getSingleSiteRuleByHostname(hostname) {
         hostname,
       },
     });
+  } catch (error) {
+    Error(error);
+  }
+}
+
+async function getSingleSiteRule(req, res) {
+  try {
+    const data = await getSingleSiteRuleByHostname(req.params.hostname);
+    res.status(200)
+      .json({
+        status: 'success',
+        data,
+        message: `Retrieved SiteRule ${parseInt(data.id)}: ${data.name}`,
+      });
   } catch (error) {
     Error(error);
   }
@@ -65,29 +64,29 @@ async function createSiteRule(req, res) {
 }
 
 
-async function updateSiteRule(req, res) {
-  try {
-    await db.SiteRule.update({
-      name: req.body.name,
-      hostname: req.body.hostname,
-      title: req.body.title,
-      content: req.body.content,
-      sanitiser: req.body.sanitiser,
-    }, {
-      where: {
-        id: parseInt(req.body.id),
-      },
-    });
+// async function updateSiteRule(req, res) {
+//   try {
+//     await db.SiteRule.update({
+//       name: req.body.name,
+//       hostname: req.body.hostname,
+//       title: req.body.title,
+//       content: req.body.content,
+//       sanitiser: req.body.sanitiser,
+//     }, {
+//       where: {
+//         id: parseInt(req.body.id),
+//       },
+//     });
 
-    res.status(200)
-      .json({
-        status: 'success',
-        message: `Updated SiteRule ${req.body.id}`,
-      });
-  } catch (error) {
-    Error(error);
-  }
-}
+//     res.status(200)
+//       .json({
+//         status: 'success',
+//         message: `Updated SiteRule ${req.body.id}`,
+//       });
+//   } catch (error) {
+//     Error(error);
+//   }
+// }
 
 
 async function removeSiteRule(req, res) {
@@ -108,34 +107,12 @@ async function removeSiteRule(req, res) {
   }
 }
 
-async function importSiteRules() {
-  try {
-    rules.forEach(async (rule) => {
-      const dbResult = await db.SiteRule.findOrCreate({
-        name: rule.name,
-        hostname: rule.hostname,
-        title: rule.title,
-        content: rule.content,
-        sanitiser: rule.sanitiser,
-      });
-
-      console.log({
-        status: 'success',
-        message: `Inserted SiteRule ${dbResult.id}.`,
-      });
-    });
-  } catch (error) {
-    Error(error);
-  }
-}
-
 
 module.exports = {
   getAllSiteRules,
   getSingleSiteRule,
   getSingleSiteRuleByHostname,
   createSiteRule,
-  updateSiteRule,
+  // updateSiteRule,
   removeSiteRule,
-  importSiteRules,
 };

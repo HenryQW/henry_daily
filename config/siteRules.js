@@ -26,6 +26,13 @@ const rules = [{
   content: 'article',
   sanitiser: ['header', 'footer'],
 },
+{
+  name: '少数派',
+  hostname: 'sspai.com',
+  title: 'h1',
+  content: 'div[class=article-content]',
+  sanitiser: ['h1'],
+},
 ];
 
 module.exports = {
