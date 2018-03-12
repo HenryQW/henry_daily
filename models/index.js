@@ -7,6 +7,7 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
   host: process.env.DB_HOST,
   dialect: 'postgres',
   operatorsAliases: false,
+  logging: process.env.NODE_ENV !== 'production',
 });
 
 const basename = path.basename(__filename);
