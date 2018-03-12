@@ -10,15 +10,17 @@ async function startCheerioProcess(content, selector) {
     decodeEntities: false,
   });
 
-  const title = $(selector.title).html().trim();
+  const title = await $(selector.title).html().trim();
 
-  selector.sanitiser.forEach((sanitiser) => {
-    $(sanitiser).remove();
+  selector.sanitiser.forEach(async (sanitiser) => {
+    await $(sanitiser).remove();
   });
 
+  const final = await $(selector.content).html().trim();
+
   return {
-    content: $(selector.content).html().trim(),
     title,
+    content: final,
   };
 }
 

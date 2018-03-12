@@ -13,6 +13,6 @@ RUN rm -rf node_modules .git .vscode .gitignore && \
   apk del build-base bash curl python gcc make g++ bash && \
   rm -rf /usr/share/man /tmp/* /var/tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp
 
+ENV NODE_ENV=production
 EXPOSE 3000
-
-CMD ["npm","start"]
+CMD ["node", "app.js"]
