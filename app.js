@@ -10,6 +10,7 @@ const passport = require('./helpers/auth');
 
 const article = require('./routes/articleRoute');
 const siteRule = require('./routes/siteRuleRoute');
+const dataCleaner = require('./routes/dataCleanerRoute');
 const index = require('./routes/index');
 
 const app = express();
@@ -37,6 +38,7 @@ app.use('/api/v1', index);
 
 app.use('/api/v1/article', passport.authenticate('localapikey'), article);
 app.use('/api/v1/siterule', passport.authenticate('localapikey'), siteRule);
+app.use('/api/v1/clean', passport.authenticate('localapikey'), dataCleaner);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

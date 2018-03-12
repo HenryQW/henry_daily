@@ -12,7 +12,6 @@ async function startCheerioProcess(content, selector) {
 
   const title = $(selector.title).html().trim();
 
-
   selector.sanitiser.forEach((sanitiser) => {
     $(sanitiser).remove();
   });
@@ -76,5 +75,6 @@ async function dispatch(url) {
 module.exports = {
   getTextViaMercury,
   getTextViaPhantomJS,
+  startCheerioProcess,
   dispatch,
 };

@@ -33,6 +33,13 @@ const rules = [{
   content: 'div[class=article-content]',
   sanitiser: ['h1'],
 },
+{
+  name: 'careerengine',
+  hostname: 'posts.careerengine.us',
+  title: 'h1',
+  content: 'div[class=post]',
+  sanitiser: ['div[class=read-more-button]'],
+},
 ];
 
 module.exports = {
