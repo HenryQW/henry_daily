@@ -1,5 +1,4 @@
 const db = require('../models');
-const rules = require('../config/siteRules');
 
 
 async function getAllSiteRules(req, res) {
