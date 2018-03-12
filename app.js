@@ -56,6 +56,4 @@ app.use((err, req, res) => {
   res.render('error');
 });
 
-require('./helpers/auth.js');
-
 module.exports = app;
