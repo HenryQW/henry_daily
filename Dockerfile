@@ -15,4 +15,4 @@ RUN rm -rf node_modules .git .vscode .gitignore && \
 
 ENV NODE_ENV=production
 EXPOSE 3000
-CMD ["node", "app.js"]
+CMD ["npm", "start"]
