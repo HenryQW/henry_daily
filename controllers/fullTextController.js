@@ -8,6 +8,7 @@ const siteRule = require('./siteRuleController');
 async function startCheerioProcess(content, selector) {
   const $ = cheerio.load(content, {
     decodeEntities: false,
+    normalizeWhitespace: true,
   });
 
   const title = await $(selector.title).html().trim();
