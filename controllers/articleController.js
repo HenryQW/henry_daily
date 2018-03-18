@@ -38,7 +38,7 @@ async function extractArticleContent(id, url) {
   const result = await fullText.dispatch(url);
   try {
     await db.Article.update({
-      content: result.content,
+      content: result.content.trim().replace(/\r?\n|\r/g, ' '),
       title: result.title,
     }, {
       where: {
