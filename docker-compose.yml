@@ -1,7 +1,7 @@
 version: "3"  
 services:
-    henry_daily:
-      container_name: henry_daily
+    api:
+      container_name: api
       image: wangqiru/henry-daily:latest
       ports:
         - 3005:3000
