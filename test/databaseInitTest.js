@@ -1,5 +1,5 @@
 require('dotenv').config();
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const db = require('../models');
 const siteRules = require('../config/siteRules');
 
