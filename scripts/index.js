@@ -1,7 +1,10 @@
 require('regenerator-runtime/runtime');
 
+const moment = require('moment');
 const Chart = require('chart.js');
 const axios = require('axios');
+
+const dateLabel = dateLabels();
 
 function ready(fn) {
   if (
@@ -57,7 +60,7 @@ const charts = [
     data: {
       type: 'bar',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Red'],
+        labels: dateLabel,
         datasets: [
           {
             label: '# of Feeds',
@@ -104,7 +107,7 @@ const charts = [
     data: {
       type: 'line',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: dateLabel,
         datasets: [
           {
             label: '# of Events',
@@ -131,6 +134,17 @@ const charts = [
     },
   },
 ];
+
+function dateLabels() {
+  const result = [];
+  for (let i = 7; i >= 1; i--) {
+    const date = moment()
+      .subtract(i, 'days')
+      .format('DD MMM');
+    result.push(date);
+  }
+  return result;
+}
 
 function resizeChart() {
   for (let i = 0; i < charts.length; i++) {

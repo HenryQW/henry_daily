@@ -16,7 +16,7 @@ async function getRSSStat(req, res) {
     client.connect();
 
     const { rows } = await client.query(`
-        SELECT count(t.*),date_trunc('day', t.date_entered)
+        SELECT count(t.*)
         FROM ttrss_entries t
         WHERE t.date_entered >  current_date - interval '6 days'
         GROUP BY date_trunc('day', t.date_entered)
@@ -36,7 +36,7 @@ async function getHuginnStat(req, res) {
     client.connect();
 
     const { rows } = await client.query(`
-        SELECT count(t.*),date_trunc('day', t.created_at)
+        SELECT count(t.*)
         FROM events t
         WHERE t.created_at >  current_date - interval '6 days'
         GROUP BY date_trunc('day', t.created_at)
