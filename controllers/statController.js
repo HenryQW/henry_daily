@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { Client } = require('pg');
+const Pool = require('pg-pool');
 
 const options = {
   host: process.env.DB_HOST,
@@ -9,11 +9,12 @@ const options = {
   password: process.env.DB_PASS,
 };
 
+const pool = new Pool(options);
+
 async function getRSSStat(req, res) {
   try {
     options.database = process.env.RSS_DB_NAME;
-    const client = new Client(options);
-    client.connect();
+    const client = await pool.connect();
 
     const { rows } = await client.query(`
         SELECT count(t.*)
@@ -32,8 +33,7 @@ async function getRSSStat(req, res) {
 async function getHuginnStat(req, res) {
   try {
     options.database = process.env.HUGINN_DB_NAME;
-    const client = new Client(options);
-    client.connect();
+    const client = await pool.connect();
 
     const { rows } = await client.query(`
         SELECT count(t.*)
