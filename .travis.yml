@@ -4,15 +4,21 @@ node_js:
   - "9"
 services:
   - docker
-branches:
-  only:
-  - master
+# branches:
+#   only:
+#   - master
 env:
-  - DB_HOST=$DB_HOST DB_PORT=$DB_PORT DB_NAME=$DB_NAME DB_USER=$DB_USER DB_PASS=$DB_PASS KEY=$KEY MERCURY=$MERCURY HUGINN_RSS=$yHUGINN_RSS DB_FEEDS_TABLE=$DB_FEEDS_TABLE
+  - DB_HOST=$DB_HOST DB_PORT=$DB_PORT DB_USER=$DB_USER DB_PASS=$DB_PASS DAILY_DB_NAME=$DAILY_DB_NAME RSS_DB_NAME=$RSS_DB_NAME HUGINN_DB_NAME=$HUGINN_DB_NAME KEY=$KEY MERCURY=$MERCURY HUGINN_RSS=$HUGINN_RSS 
 
+git:
+  submodules:
+    false
+before_install:
+  - sed -ie 's/git@github.com:/https:\/\/'"$GITHUB_TOKEN"'@github.com\//' .gitmodules
+  - git submodule update --init --recursive
+  - npm install
 install: 
   - chmod a+x deploy.sh && ./deploy.sh
-
 notifications:
   email:
     recipients:

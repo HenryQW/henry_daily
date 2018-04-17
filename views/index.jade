@@ -1,4 +1,32 @@
 extends layout
 
 block content
-  p Welcome to #{title}
+ .gc-1-2
+    .grid.service#rss
+      .headline.content.atd
+        | RSS
+      .content
+        | Daily news driver
+      .footline Credit: Tiny Tiny RSS
+    .grid
+      .upper-headline Feed Stats
+      .chart(style="position:relative; height:120px;")
+        canvas#rssChart
+
+  .gc-1-2
+    .grid.service#huginn
+      .headline.content.atd
+        | Huginn
+      .content
+        | The world, under watch
+      .footline
+        | Credit: Huginn
+    .grid
+      .upper-headline Agent Stats
+      .chart(style="position:relative; height:150px")
+        canvas#huginnChart
+
+  .spinner#chartSpinner
+      .bounce1
+      .bounce2
+      .bounce3

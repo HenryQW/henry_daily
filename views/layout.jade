@@ -1,7 +1,22 @@
 doctype html
-html
+html(lang="en")
   head
-    title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    meta(charset="UTF-8")
+    title Henry's Dashboard
+    meta(name="viewport", content="width=device-width, initial-scale=1")
+    link(rel="stylesheet", href="css/style.css")
   body
-    block content
+    .wrapper
+      .content
+        .content-wrapper
+          .logo
+            img(src="images/logo.jpg", width="100%")
+            h1
+              | Henry's Dashboard
+          .grid-container
+            block content
+      .footer-menu
+        .menu.github Github
+        .menu.email Email
+        .menu.linkedin LinkedIn
+  script(src="js/index.js")

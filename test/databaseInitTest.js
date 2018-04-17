@@ -5,7 +5,8 @@ const siteRules = require('../config/siteRules');
 
 describe('Database init()', () => {
   before((done) => {
-    db.sequelize.sync()
+    db.sequelize
+      .sync()
       .then(async () => {
         done();
       })
@@ -14,12 +15,10 @@ describe('Database init()', () => {
       });
   });
 
-
   it('SiteRules should have all pre-defined rules', async () => {
     const siteRule = await db.SiteRule.findAll();
     expect(siteRule.length).to.equal(siteRules.rules.length);
   });
-
 
   it('Users should have Henry', async () => {
     const user = await db.User.findById(1);

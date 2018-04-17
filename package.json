@@ -3,32 +3,49 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
-    "test": "mocha --exit"
+    "start": "npm run build && node ./bin/www",
+    "test": "mocha --exit",
+    "debug": "npm run build && node --inspect-brk=3000 ./bin/www",
+    "build": "rm -rf ./public/js && ./node_modules/.bin/babel ./scripts -d  ./public/js &&  ./node_modules/.bin/gulp"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free-webfonts": "^1.0.6",
     "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
     "body-parser": "~1.18.2",
-    "chai": "^4.1.2",
+    "chart.js": "^2.7.2",
     "cheerio": "^1.0.0-rc.2",
     "cookie-parser": "~1.4.3",
     "debug": "^3.1.0",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "jade": "^1.11.0",
-    "mocha": "^5.0.4",
     "morgan": "~1.9.0",
     "passport": "^0.4.0",
     "passport-localapikey": "0.0.3",
     "pg": "^7.4.1",
     "pg-hstore": "^2.3.2",
     "phantom": "^4.0.12",
-    "sequelize": "^4.36.1",
+    "sequelize": "^4.37.6",
     "serve-favicon": "~2.4.5"
   },
   "devDependencies": {
-    "eslint": "^4.18.2",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "chai": "^4.1.2",
+    "del": "^3.0.0",
+    "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.9.0"
+    "eslint-plugin-import": "^2.11.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^7.0.1",
+    "gulp-browserify": "^0.5.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "mocha": "^5.1.0",
+    "regenerator-runtime": "^0.11.1"
   }
 }
