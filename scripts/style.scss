@@ -17,7 +17,8 @@ html {
 
 body {
   background-color: $body-color;
-  font: 400 1rem/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font: 400 1rem/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   position: relative;
 }
 
@@ -38,7 +39,8 @@ body {
 }
 
 .logo {
-  margin: 0 20px 0;
+  margin: 0 20px -2em 0;
+  padding: 0 1em 0 1em;
   display: flex;
   align-items: center;
   img {
@@ -48,7 +50,7 @@ body {
 }
 
 .grid-container {
-  padding: 20px;
+  padding: 0 1em 0 1em;
   .gc-2-1 {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -106,7 +108,6 @@ body {
     canvas {
       width: 100% !important;
       min-width: 300px;
-      height: 200px;
     }
     .footline {
       font-size: 0.55em;

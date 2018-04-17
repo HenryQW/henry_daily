@@ -6,7 +6,7 @@
     "start": "npm run build && node ./bin/www",
     "test": "mocha --exit",
     "debug": "npm run build && node --inspect-brk=3000 ./bin/www",
-    "build": "rm -rf ./public/js && ./node_modules/.bin/babel ./scripts -d  ./public/js &&  ./node_modules/.bin/gulp"
+    "build": "./node_modules/.bin/gulp"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free-webfonts": "^1.0.6",
