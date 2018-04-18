@@ -35,34 +35,34 @@ Object.keys(db).forEach((modelName) => {
   }
 });
 
-// sequelize.sync().then(() => {
-//   try {
-//     const { rules } = siteRules;
+sequelize.sync().then(() => {
+  try {
+    const { rules } = siteRules;
 
-//     Object.keys(rules).forEach(async (rule) => {
-//       await db.SiteRule.findOrCreate({
-//         where: {
-//           name: rules[rule].name,
-//         },
-//         defaults: {
-//           hostname: rules[rule].hostname,
-//           title: rules[rule].title,
-//           content: rules[rule].content,
-//           sanitiser: rules[rule].sanitiser,
-//         },
-//       }).spread((res, created) => {
-//         if (created) {
-//           console.log({
-//             status: 'success',
-//             message: `Inserted SiteRule ${res.id}: ${rules[rule].name}.`,
-//           });
-//         }
-//       });
-//     });
-//   } catch (error) {
-//     Error(error);
-//   }
-// });
+    Object.keys(rules).forEach(async (rule) => {
+      await db.SiteRule.findOrCreate({
+        where: {
+          name: rules[rule].name,
+        },
+        defaults: {
+          hostname: rules[rule].hostname,
+          title: rules[rule].title,
+          content: rules[rule].content,
+          sanitiser: rules[rule].sanitiser,
+        },
+      }).spread((res, created) => {
+        if (created) {
+          console.log({
+            status: 'success',
+            message: `Inserted SiteRule ${res.id}: ${rules[rule].name}.`,
+          });
+        }
+      });
+    });
+  } catch (error) {
+    Error(error);
+  }
+});
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

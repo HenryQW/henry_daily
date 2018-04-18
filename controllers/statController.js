@@ -1,5 +1,6 @@
 const axios = require('axios');
 const Pool = require('pg-pool');
+const { Client } = require('pg');
 
 const options = {
   host: process.env.DB_HOST,
@@ -9,15 +10,15 @@ const options = {
   password: process.env.DB_PASS,
   max: 10,
   min: 3,
-  idleTimeoutMillis: 1000,
-  connectionTimeoutMillis: 1000,
+  idleTimeoutMillis: 10000,
+  connectionTimeoutMillis: 10000,
 };
 
 async function getRSSStat(req, res) {
   try {
     options.database = process.env.RSS_DB_NAME;
-    const pool = new Pool(options);
-    const client = await pool.connect();
+    const client = new Client(options);
+    client.connect();
 
     const { rows } = await client.query(`
         SELECT count(t.*)
@@ -26,7 +27,7 @@ async function getRSSStat(req, res) {
         GROUP BY date_trunc('day', t.date_entered)
         ORDER BY date_trunc('day', t.date_entered);
     `);
-
+    client.end();
     res.status(200).json(rows);
   } catch (error) {
     Error(error);
@@ -36,8 +37,8 @@ async function getRSSStat(req, res) {
 async function getHuginnStat(req, res) {
   try {
     options.database = process.env.HUGINN_DB_NAME;
-    const pool = new Pool(options);
-    const client = await pool.connect();
+    const client = new Client(options);
+    client.connect();
 
     const { rows } = await client.query(`
         SELECT count(t.*)
@@ -46,7 +47,7 @@ async function getHuginnStat(req, res) {
         GROUP BY date_trunc('day', t.created_at)
         ORDER BY date_trunc('day', t.created_at);
     `);
-
+    client.end();
     res.status(200).json(rows);
   } catch (error) {
     Error(error);
