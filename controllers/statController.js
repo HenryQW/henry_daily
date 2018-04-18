@@ -13,11 +13,10 @@ const options = {
   connectionTimeoutMillis: 1000,
 };
 
-const pool = new Pool(options);
-
 async function getRSSStat(req, res) {
   try {
     options.database = process.env.RSS_DB_NAME;
+    const pool = new Pool(options);
     const client = await pool.connect();
 
     const { rows } = await client.query(`
@@ -37,6 +36,7 @@ async function getRSSStat(req, res) {
 async function getHuginnStat(req, res) {
   try {
     options.database = process.env.HUGINN_DB_NAME;
+    const pool = new Pool(options);
     const client = await pool.connect();
 
     const { rows } = await client.query(`
