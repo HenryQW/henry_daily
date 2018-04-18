@@ -41,6 +41,7 @@ const getData = async function getData(type) {
   type = type.replace('Chart', '');
   const a = [];
   try {
+    // const result = await axios.get(`http://localhost:3000/api/v1/stat/${type}`);
     const result = await axios.get(`https://api.henry.wang/api/v1/stat/${type}`,);
 
     result.data.forEach((e) => {
@@ -153,7 +154,10 @@ function resizeChart() {
     const new_canvasWidth = Math.max(canvas.parentNode.clientWidth, 800);
     const new_canvasHeight = 300;
 
-    if (new_canvasWidth != canvas.width || new_canvasHeight != canvas.height) {
+    if (
+      new_canvasWidth !== canvas.width ||
+      new_canvasHeight !== canvas.height
+    ) {
       canvas.width = new_canvasWidth;
       canvas.height = new_canvasHeight;
       new Chart(canvas.getContext('2d'), charts[i].data);
@@ -161,6 +165,7 @@ function resizeChart() {
   }
 }
 
+let windowWidth = window.innerWidth;
 ready(() => {
   clickableDiv();
   resizeChart();
@@ -171,8 +176,11 @@ let resizeTracker;
 window.addEventListener(
   'resize',
   () => {
-    clearTimeout(resizeTracker);
-    resizeTracker = setTimeout(resizeChart, 300);
+    if (windowWidth !== window.innerWidth) {
+      clearTimeout(resizeTracker);
+      resizeTracker = setTimeout(resizeChart(), 300);
+      windowWidth = window.innerWidth;
+    }
   },
   false,
 );

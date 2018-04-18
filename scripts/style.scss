@@ -22,9 +22,14 @@ body {
   position: relative;
 }
 
+h1 {
+  @media screen and (max-width: 550px) {
+    font-size: 1.6em;
+  }
+}
+
 .wrapper {
   margin: 0 auto;
-  min-width: 400px;
   max-width: $max-width-panel;
   position: relative;
   &.blur {
@@ -39,10 +44,13 @@ body {
 }
 
 .logo {
-  margin: 0 20px -2em 0;
+  margin: 0 1em -2em 0;
   padding: 0 1em 0 1em;
   display: flex;
   align-items: center;
+  @media screen and (max-width: 550px) {
+    padding: 0 5px 0 5px;
+  }
   img {
     max-width: 60px;
     height: auto;
@@ -51,6 +59,9 @@ body {
 
 .grid-container {
   padding: 0 1em 0 1em;
+  @media screen and (max-width: 550px) {
+    padding: 0 5px 0 5px;
+  }
   .gc-2-1 {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -60,6 +71,7 @@ body {
     }
     @media screen and (min-width: 550px) and (max-width: 950px) {
       grid-template-columns: 1fr 1fr;
+      grid-gap: $grid-gap/2;
     }
   }
   .gc-1-2 {
@@ -67,11 +79,12 @@ body {
     display: grid;
     grid-template-columns: 1fr 2fr;
     grid-gap: $grid-gap;
-    @media screen and (max-width: 630px) {
+    @media screen and (max-width: 550px) {
       grid-template-columns: 1fr;
     }
-    @media screen and (min-width: 630px) and (max-width: 950px) {
+    @media screen and (min-width: 550px) and (max-width: 950px) {
       grid-template-columns: 1fr 1fr;
+      grid-gap: $grid-gap/2;
     }
   }
   .service {

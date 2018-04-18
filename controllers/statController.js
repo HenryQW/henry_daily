@@ -7,6 +7,10 @@ const options = {
   user: process.env.DB_USER,
   database: process.env.HUGINN_DB_NAME,
   password: process.env.DB_PASS,
+  max: 10,
+  min: 3,
+  idleTimeoutMillis: 1000,
+  connectionTimeoutMillis: 1000,
 };
 
 const pool = new Pool(options);
@@ -19,7 +23,7 @@ async function getRSSStat(req, res) {
     const { rows } = await client.query(`
         SELECT count(t.*)
         FROM ttrss_entries t
-        WHERE t.date_entered >  current_date - interval '6 days'
+        WHERE t.date_entered >  current_date - interval '7 days'
         GROUP BY date_trunc('day', t.date_entered)
         ORDER BY date_trunc('day', t.date_entered);
     `);
@@ -38,7 +42,7 @@ async function getHuginnStat(req, res) {
     const { rows } = await client.query(`
         SELECT count(t.*)
         FROM events t
-        WHERE t.created_at >  current_date - interval '6 days'
+        WHERE t.created_at >  current_date - interval '7 days'
         GROUP BY date_trunc('day', t.created_at)
         ORDER BY date_trunc('day', t.created_at);
     `);
