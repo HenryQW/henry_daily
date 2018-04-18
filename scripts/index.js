@@ -20,11 +20,23 @@ function ready(fn) {
 
 function clickableDiv() {
   document.getElementById('rss').onclick = function () {
-    location.href = 'https://rss.wangqiru.com';
+    window.open('https://rss.wangqiru.com', '_blank');
   };
 
   document.getElementById('huginn').onclick = function () {
-    location.href = 'https://bot.wangqiru.com';
+    window.open('https://bot.wangqiru.com', '_blank');
+  };
+
+  document.getElementById('github').onclick = function () {
+    window.open('https://github.com/henryqw', '_blank');
+  };
+
+  document.getElementById('email').onclick = function () {
+    window.open('mailto:henry@wangqiru.com');
+  };
+
+  document.getElementById('linkedin').onclick = function () {
+    window.open('https://www.linkedin.com/in/wangqiru/', '_blank');
   };
 }
 
