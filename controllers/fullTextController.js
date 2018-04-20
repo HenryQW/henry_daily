@@ -4,27 +4,29 @@ const cheerio = require('cheerio');
 const urlUtil = require('url');
 const siteRule = require('./siteRuleController');
 
-
 async function startCheerioProcess(content, selector) {
   const $ = cheerio.load(content, {
     decodeEntities: false,
     normalizeWhitespace: true,
   });
 
-  const title = await $(selector.title).html().trim();
+  const title = await $(selector.title)
+    .html()
+    .trim();
 
-  selector.sanitiser.forEach(async (sanitiser) => {
-    await $(sanitiser).remove();
+  selector.sanitiser.forEach(async (s) => {
+    await $(s).remove();
   });
 
-  const final = await $(selector.content).html().trim();
+  const final = await $(selector.content)
+    .html()
+    .trim();
 
   return {
     title,
     content: final,
   };
 }
-
 
 async function getTextViaPhantomJS(url) {
   try {
@@ -44,14 +46,16 @@ async function getTextViaPhantomJS(url) {
   return null;
 }
 
-
 async function getTextViaMercury(url) {
   try {
-    const res = await axios.get(`https://mercury.postlight.com/parser?url=${url}`, {
-      headers: {
-        'x-api-key': process.env.MERCURY,
+    const res = await axios.get(
+      `https://mercury.postlight.com/parser?url=${url}`,
+      {
+        headers: {
+          'x-api-key': process.env.MERCURY,
+        },
       },
-    });
+    );
     return res.data;
   } catch (error) {
     Error(error);
@@ -59,11 +63,8 @@ async function getTextViaMercury(url) {
   return null;
 }
 
-
 async function dispatch(url) {
-  const {
-    hostname,
-  } = urlUtil.parse(url);
+  const { hostname } = urlUtil.parse(url);
 
   const selector = await siteRule.getSingleSiteRuleByHostname(hostname);
 
@@ -73,7 +74,6 @@ async function dispatch(url) {
   const content = await getTextViaPhantomJS(url);
   return startCheerioProcess(content, selector);
 }
-
 
 module.exports = {
   getTextViaMercury,

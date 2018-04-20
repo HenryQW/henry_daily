@@ -1,15 +1,13 @@
 const db = require('../models');
 
-
 async function getAllSiteRules(req, res) {
   try {
     const data = await db.SiteRule.findAll();
-    res.status(200)
-      .json({
-        status: 'success',
-        data,
-        message: 'Retrieved ALL SiteRules',
-      });
+    res.status(200).json({
+      status: 'Success',
+      data,
+      message: 'Retrieved ALL SiteRules',
+    });
   } catch (error) {
     Error(error);
   }
@@ -17,7 +15,7 @@ async function getAllSiteRules(req, res) {
 
 async function getSingleSiteRuleByHostname(hostname) {
   try {
-    return db.SiteRule.findOne({
+    return await db.SiteRule.findOne({
       where: {
         hostname,
       },
@@ -30,17 +28,21 @@ async function getSingleSiteRuleByHostname(hostname) {
 async function getSingleSiteRule(req, res) {
   try {
     const data = await getSingleSiteRuleByHostname(req.params.hostname);
-    res.status(200)
-      .json({
-        status: 'success',
+    if (data !== null) {
+      res.status(200).json({
+        status: 'Success',
         data,
         message: `Retrieved SiteRule ${parseInt(data.id)}: ${data.name}`,
       });
+    }
+    res.status(404).json({
+      status: 'Not Found',
+      message: `No SiteRule with hostname of ${req.params.hostname} was found`,
+    });
   } catch (error) {
     Error(error);
   }
 }
-
 
 async function createSiteRule(req, res) {
   try {
@@ -49,19 +51,24 @@ async function createSiteRule(req, res) {
       hostname: req.body.hostname,
       title: req.body.title,
       content: req.body.content,
-      sanitiser: req.body.sanitiser,
+      sanitiser: JSON.parse(req.body.sanitiser),
     });
 
-    res.status(200)
-      .json({
-        status: 'success',
+    if (dbResult !== null) {
+      res.status(200).json({
+        status: 'Success',
         message: `Inserted SiteRule ${dbResult.id}.`,
       });
+    } else {
+      res.status(404).json({
+        status: 'Not Found',
+        message: 'No SiteRule with hostname of ',
+      });
+    }
   } catch (error) {
     Error(error);
   }
 }
-
 
 // async function updateSiteRule(req, res) {
 //   try {
@@ -79,7 +86,7 @@ async function createSiteRule(req, res) {
 
 //     res.status(200)
 //       .json({
-//         status: 'success',
+//         status: 'Success',
 //         message: `Updated SiteRule ${req.body.id}`,
 //       });
 //   } catch (error) {
@@ -87,25 +94,28 @@ async function createSiteRule(req, res) {
 //   }
 // }
 
-
 async function removeSiteRule(req, res) {
   try {
     await db.SiteRule.destroy({
       where: {
-        id: parseInt(req.params.id),
+        hostname: req.params.hostname,
       },
     });
 
-    res.status(200)
-      .json({
-        status: 'success',
+    if (data !== null) {
+      res.status(200).json({
+        status: 'Success',
         message: `Removed SiteRule ${parseInt(req.params.id)}`,
       });
+    }
+    res.status(404).json({
+      status: 'Not Found',
+      message: `No SiteRule with hostname of ${req.params.hostname} was found`,
+    });
   } catch (error) {
     Error(error);
   }
 }
-
 
 module.exports = {
   getAllSiteRules,
