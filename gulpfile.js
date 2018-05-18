@@ -14,32 +14,35 @@ const paths = {
 
 gulp.task('clean', () => del(['./public/css'], ['./public/js']));
 
-gulp.task('scss', ['clean'], () =>
+gulp.task('scss', () =>
   gulp
     .src(paths.scss)
     .pipe(sass({
-        outputStyle: 'compressed',
-      }).on('error', sass.logError),)
+      outputStyle: 'compressed',
+    }).on('error', sass.logError))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./public/css')),);
+    .pipe(gulp.dest('./public/css')));
 
-gulp.task('js', ['clean'], () =>
+gulp.task('js', () =>
   gulp
     .src(paths.js)
     .pipe(babel({
-        presets: ['env'],
-      }),)
+      presets: ['env'],
+    }))
     .pipe(browserify({
-        insertGlobals: true,
-      }),)
+      insertGlobals: true,
+    }))
     .pipe(uglify())
     .pipe(concat('index.js'))
     .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./public/js')),);
+    .pipe(gulp.dest('./public/js')));
 
 gulp.task('watch', () => {
   gulp.watch(paths.scss, ['scss']);
   gulp.watch(paths.js, ['js']);
 });
 
-gulp.task('default', ['scss', 'js']);
+gulp.task(
+  'default',
+  gulp.series('clean', gulp.parallel('scss', 'js')),
+);
