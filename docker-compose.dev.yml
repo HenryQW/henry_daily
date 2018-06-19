@@ -1,0 +1,10 @@
+version: "3"  
+services:
+    api:
+      container_name: api
+      image: wangqiru/api
+      build:
+        context: .
+      ports:
+        - 3005:3000
+      restart: always
