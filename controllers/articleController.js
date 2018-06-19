@@ -118,5 +118,5 @@ module.exports = {
   createArticle,
   extractArticleContent,
   // updateArticle,
-  removeArticle,
+  // removeArticle,
 };
