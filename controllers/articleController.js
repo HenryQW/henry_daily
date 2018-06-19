@@ -2,15 +2,19 @@ const db = require('../models');
 
 const fullText = require('../controllers/fullTextController');
 
-
-async function getAllArticles(req, res) {
+async function getLastTenArticles(req, res) {
   try {
-    const data = await db.Article.findAll();
+    const data = await db.Article.findAll({
+      limit: 10,
+      order: [
+        ['createdAt', 'DESC'],
+      ],
+    });
     res.status(200)
       .json({
         status: 'success',
         data,
-        message: 'Retrieved ALL Articles',
+        message: 'Retrieved Last 10 Articles',
       });
   } catch (error) {
     Error(error);
@@ -112,7 +116,7 @@ async function removeArticle(req, res) {
 
 
 module.exports = {
-  getAllArticles,
+  getLastTenArticles,
   getSingleArticle,
   createArticle,
   extractArticleContent,
