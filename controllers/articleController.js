@@ -1,7 +1,6 @@
 const db = require('../models');
 
 const fullText = require('../controllers/fullTextController');
-const huginn = require('../helpers/huginn');
 
 
 async function getAllArticles(req, res) {
