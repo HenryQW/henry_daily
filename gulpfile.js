@@ -28,6 +28,15 @@ gulp.task('js', () =>
     .src(paths.js)
     .pipe(babel({
       presets: ['env'],
+      plugins: [
+        [
+          'transform-runtime',
+          {
+            polyfill: false,
+            regenerator: true,
+          },
+        ],
+      ],
     }))
     .pipe(browserify({
       insertGlobals: true,
@@ -38,11 +47,11 @@ gulp.task('js', () =>
     .pipe(gulp.dest('./public/js')));
 
 gulp.task('watch', () => {
-  gulp.watch(paths.scss, ['scss']);
-  gulp.watch(paths.js, ['js']);
+  gulp.watch(paths.scss, gulp.series('scss'));
+  gulp.watch(paths.js, gulp.series('js'));
 });
 
 gulp.task(
   'default',
-  gulp.series('clean', gulp.parallel('scss', 'js')),
+  gulp.series('clean', gulp.parallel('scss', 'js'), 'watch'),
 );
