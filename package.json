@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "gulp & node ./bin/www",
+    "deploy": "gulp deploy & node ./bin/www",
     "test": "mocha --exit",
     "debug": "gulp & node --inspect-brk=3008 ./bin/www"
   },

@@ -55,3 +55,8 @@ gulp.task(
   'default',
   gulp.series('clean', gulp.parallel('scss', 'js'), 'watch'),
 );
+
+gulp.task(
+  'deploy',
+  gulp.series('clean', gulp.parallel('scss', 'js')),
+);
