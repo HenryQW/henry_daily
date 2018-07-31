@@ -5,6 +5,6 @@ const stat = require('../controllers/statController');
 
 router.get('/rss', stat.getRSSStat);
 router.get('/huginn', stat.getHuginnStat);
-router.get('/dockerrss', stat.getDockerRSSStat);
+router.get('/docker', stat.getDockerHubStat);
 
 module.exports = router;

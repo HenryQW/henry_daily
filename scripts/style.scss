@@ -159,6 +159,20 @@ h1 {
       }
     }
   }
+  #docker {
+    background: linear-gradient(#0db7ed, #1087d6);
+    color: #fff;
+    .upper-headline {
+      color: #fff;
+    }
+    .headline {
+      &::before {
+        font-family: "Font Awesome 5 Brands";
+        content: "\f395";
+        margin-right: 0.2em;
+      }
+    }
+  }
 }
 
 .footer-menu {

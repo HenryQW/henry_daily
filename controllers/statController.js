@@ -1,6 +1,10 @@
+const db = require('../models');
 const axios = require('axios');
+const cron = require('node-cron');
 const Pool = require('pg-pool');
-const { Client } = require('pg');
+const {
+  Client,
+} = require('pg');
 
 const options = {
   host: process.env.DB_HOST,
@@ -20,7 +24,9 @@ async function getRSSStat(req, res) {
     const client = new Client(options);
     client.connect();
 
-    const { rows } = await client.query(`
+    const {
+      rows,
+    } = await client.query(`
         SELECT count(t.*)
         FROM ttrss_entries t
         WHERE t.date_entered >  current_date - interval '7 days'
@@ -40,7 +46,9 @@ async function getHuginnStat(req, res) {
     const client = new Client(options);
     client.connect();
 
-    const { rows } = await client.query(`
+    const {
+      rows,
+    } = await client.query(`
         SELECT count(t.*)
         FROM events t
         WHERE t.created_at >  current_date - interval '7 days'
@@ -54,17 +62,52 @@ async function getHuginnStat(req, res) {
   }
 }
 
-async function getDockerRSSStat(req, res) {
+async function getDockerHubStat(req, res) {
   try {
-    const result = await axios.get('https://hub.docker.com/v2/repositories/wangqiru/ttrss/',);
-    res.status(200).json(result.data);
+    options.database = process.env.DAILY_DB_NAME;
+    const client = new Client(options);
+    client.connect();
+
+    const {
+      rows,
+    } = await client.query(`
+        SELECT pull as count
+        FROM "DockerHubs"
+        WHERE "createdAt" >  current_date - interval '7 days'
+        ORDER BY date_trunc('day', "createdAt");
+    `);
+    client.end();
+    res.status(200).json(rows);
   } catch (error) {
     Error(error);
   }
 }
 
+
+async function retrieveDockerHubStat(url) {
+  try {
+    const result = await axios.get(url);
+
+    const dbResult = await db.DockerHub.create({
+      repo: `${result.data.namespace}/${result.data.name}`,
+      pull: result.data.pull_count,
+      star: result.data.star_count,
+    });
+    return dbResult.id != null;
+  } catch (error) {
+    Error(error);
+    return false;
+  }
+}
+
+const task = cron.schedule('0 0 * * *', () => {
+  retrieveDockerHubStat('https://registry.hub.docker.com/v2/repositories/wangqiru/ttrss/');
+});
+
+task.start();
+
 module.exports = {
   getRSSStat,
   getHuginnStat,
-  getDockerRSSStat,
+  getDockerHubStat,
 };

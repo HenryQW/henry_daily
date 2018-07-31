@@ -1,5 +1,3 @@
-require('regenerator-runtime/runtime');
-
 const moment = require('moment');
 const Chart = require('chart.js');
 const axios = require('axios');
@@ -18,13 +16,18 @@ function ready(fn) {
   }
 }
 
+/** UI */
 function clickableDiv() {
   document.getElementById('rss').onclick = function () {
-    window.open('https://rss.wangqiru.com', '_blank');
+    window.open('https://rss.henry.wang', '_blank');
   };
 
   document.getElementById('huginn').onclick = function () {
-    window.open('https://bot.wangqiru.com', '_blank');
+    window.open('https://bot.henry.wang', '_blank');
+  };
+
+  document.getElementById('docker').onclick = function () {
+    window.open('https://hub.docker.com/r/wangqiru/ttrss/', '_blank');
   };
 
   document.getElementById('github').onclick = function () {
@@ -40,22 +43,19 @@ function clickableDiv() {
   };
 }
 
-function updateChart() {
-  Chart.helpers.each(Chart.instances, async (instance) => {
-    const chart = instance.chart.controller;
-    chart.data.datasets[0].data = await getData(instance.chart.canvas.id);
-    chart.update();
-  });
-  document.getElementById('chartSpinner').style.display = 'none';
-}
+/** End of UI */
 
-const getData = async function getData(type) {
+/** Data */
+async function getData(type) {
   type = type.replace('Chart', '');
   const a = [];
   try {
-    // const result = await axios.get(`http://localhost:3000/api/v1/stat/${type}`);
-    const result = await axios.get(`https://api.henry.wang/api/v1/stat/${type}`);
-
+    let result;
+    if (process.env.NODE_ENV === 'production') {
+      result = await axios.get(`https://api.henry.wang/api/v1/stat/${type}`);
+    } else {
+      result = await axios.get(`http://127.0.0.1:3000/api/v1/stat/${type}`);
+    }
     result.data.forEach((e) => {
       a.push(parseInt(e.count));
     });
@@ -65,8 +65,12 @@ const getData = async function getData(type) {
     Error(error);
   }
   return a;
-};
+}
 
+/** End of Data */
+
+
+/** Chart */
 const charts = [{
   id: 'rssChart',
   data: {
@@ -100,13 +104,6 @@ const charts = [{
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true,
-          },
-        }],
-      },
     },
   },
 },
@@ -118,7 +115,7 @@ const charts = [{
       labels: dateLabel,
       datasets: [{
         label: '# of Events',
-        data: [764, 821, 803, 678, 372, 328, 759],
+        data: [2000, 8000, 2500, 3500, 2800, 2200, 4900],
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
         borderColor: 'rgba(54, 162, 235, 1)',
         borderWidth: 1,
@@ -127,13 +124,26 @@ const charts = [{
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      scales: {
-        yAxes: [{
-          ticks: {
-            beginAtZero: true,
-          },
-        }],
-      },
+    },
+  },
+},
+{
+  id: 'dockerChart',
+  data: {
+    type: 'line',
+    data: {
+      labels: dateLabel,
+      datasets: [{
+        label: '# of Pulls',
+        data: [250000, 280000, 290000, 300000, 310000, 320000, 330000],
+        backgroundColor: 'rgba(13, 183, 237, 0.2)',
+        borderColor: 'rgba(56, 77, 84, 1)',
+        borderWidth: 1,
+      }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
     },
   },
 },
@@ -148,6 +158,16 @@ function dateLabels() {
     result.push(date);
   }
   return result;
+}
+
+
+function updateChart() {
+  Chart.helpers.each(Chart.instances, async (instance) => {
+    const chart = instance.chart.controller;
+    chart.data.datasets[0].data = await getData(instance.chart.canvas.id);
+    chart.update();
+  });
+  document.getElementById('chartSpinner').style.display = 'none';
 }
 
 function resizeChart() {
@@ -169,11 +189,6 @@ function resizeChart() {
 }
 
 let windowWidth = window.innerWidth;
-ready(() => {
-  clickableDiv();
-  resizeChart();
-  updateChart();
-});
 
 let resizeTracker;
 window.addEventListener(
@@ -187,3 +202,11 @@ window.addEventListener(
   },
   false,
 );
+
+/** Chart */
+
+ready(() => {
+  clickableDiv();
+  resizeChart();
+  updateChart();
+});

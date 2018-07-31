@@ -2,7 +2,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-localapikey').Strategy;
 const User = require('../controllers/userController');
 
-
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
@@ -28,5 +27,8 @@ passport.use(new LocalStrategy(((apikey, done) => {
   });
 })));
 
+function authenticate(req, res, next) {
+  passport.authenticate('localapikey')(req, res, next);
+}
 
 module.exports = passport;
