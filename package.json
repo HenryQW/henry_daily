@@ -1,11 +1,11 @@
 {
-  "name": "node-API-server",
+  "name": "api.henry.wang",
   "version": "0.0.0",
   "private": true,
   "scripts": {
     "start": "gulp & node ./bin/www",
     "deploy": "gulp deploy & node ./bin/www",
-    "test": "mocha --exit",
+    "test": "mocha --exit --timeout 10000",
     "debug": "gulp & node --inspect-brk=3008 ./bin/www"
   },
   "dependencies": {

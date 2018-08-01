@@ -50,12 +50,10 @@ async function getData(type) {
   type = type.replace('Chart', '');
   const a = [];
   try {
-    let result;
-    if (process.env.NODE_ENV === 'production') {
-      result = await axios.get(`https://api.henry.wang/api/v1/stat/${type}`);
-    } else {
-      result = await axios.get(`http://127.0.0.1:3000/api/v1/stat/${type}`);
-    }
+    const result = await axios.get(`https://api.henry.wang/api/v1/stat/${type}`);
+
+    // const result = await axios.get(`http://127.0.0.1:3000/api/v1/stat/${type}`);
+
     result.data.forEach((e) => {
       a.push(parseInt(e.count));
     });
