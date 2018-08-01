@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const article = require('../../backend/controllers/articleController');
+const article = require('../../backend/controllers/ArticleController');
 
 
 router.get('', article.getLastTenArticles);

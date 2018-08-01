@@ -2,7 +2,7 @@ const axios = require('axios');
 const phantom = require('phantom');
 const cheerio = require('cheerio');
 const urlUtil = require('url');
-const siteRule = require('./siteRuleController');
+const siteRule = require('./SiteRuleController');
 
 async function startCheerioProcess(content, selector) {
   const $ = cheerio.load(content, {

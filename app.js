@@ -7,13 +7,11 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('./backend/helpers/auth');
 
-const article = require('./frontend/routes/articleRoute');
-const siteRule = require('./frontend/routes/siteRuleRoute');
-const stat = require('./frontend/routes/statRoute');
-const dataCleaner = require('./frontend/routes/dataCleanerRoute');
-const index = require('./frontend/routes/indexRoute');
-
-const test = require('./backend/controllers/fullTextController');
+const article = require('./frontend/routes/ArticleRoute');
+const siteRule = require('./frontend/routes/SiteRuleRoute');
+const stat = require('./frontend/routes/StatRoute');
+const dataCleaner = require('./frontend/routes/DataCleanerRoute');
+const index = require('./frontend/routes/IndexRoute');
 
 const app = express();
 // view engine setup
