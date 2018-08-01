@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const cleaner = require('../controllers/dataCleanController');
+const cleaner = require('../../backend/controllers/dataCleanController');
 
 
 router.get('', cleaner.startDataCleaning);

@@ -5,27 +5,29 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const passport = require('./helpers/auth');
+const passport = require('./backend/helpers/auth');
 
-const article = require('./routes/articleRoute');
-const siteRule = require('./routes/siteRuleRoute');
-const stat = require('./routes/statRoute');
-const dataCleaner = require('./routes/dataCleanerRoute');
-const index = require('./routes/indexRoute');
+const article = require('./frontend/routes/articleRoute');
+const siteRule = require('./frontend/routes/siteRuleRoute');
+const stat = require('./frontend/routes/statRoute');
+const dataCleaner = require('./frontend/routes/dataCleanerRoute');
+const index = require('./frontend/routes/indexRoute');
+
+const test = require('./backend/controllers/fullTextController');
 
 const app = express();
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'frontend', 'views'));
 app.set('view engine', 'jade');
 
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'frontend', 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'frontend', 'public')));
 
 app.use(passport.initialize());
 app.use(passport.session());
