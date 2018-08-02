@@ -13,6 +13,8 @@ const stat = require('./frontend/routes/StatRoute');
 const dataCleaner = require('./frontend/routes/DataCleanerRoute');
 const index = require('./frontend/routes/IndexRoute');
 
+const test = require('./backend/controllers/JobController');
+
 const app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'frontend', 'views'));
@@ -37,6 +39,9 @@ app.use('/api/v1/stat', stat);
 app.use('/api/v1/article', passport.authenticate('localapikey'), article);
 app.use('/api/v1/siterule', passport.authenticate('localapikey'), siteRule);
 app.use('/api/v1/clean', passport.authenticate('localapikey'), dataCleaner);
+
+
+test.getTotalJobContent('1');
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
