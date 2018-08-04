@@ -5,11 +5,13 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const cron = require('node-cron');
 const passport = require('./helpers/auth');
 
 const article = require('./routes/articleRoute');
 const siteRule = require('./routes/siteRuleRoute');
 const stat = require('./routes/statRoute');
+const statController = require('./controllers/statController');
 const dataCleaner = require('./routes/dataCleanerRoute');
 const index = require('./routes/indexRoute');
 
@@ -37,6 +39,13 @@ app.use('/api/v1/stat', stat);
 app.use('/api/v1/article', passport.authenticate('localapikey'), article);
 app.use('/api/v1/siterule', passport.authenticate('localapikey'), siteRule);
 app.use('/api/v1/clean', passport.authenticate('localapikey'), dataCleaner);
+
+const task = cron.schedule('0 0 * * *', () => {
+  statController.retrieveDockerHubStat('https://registry.hub.docker.com/v2/repositories/wangqiru/ttrss/');
+  console.log('retrieveDockerHubStat trigger');
+});
+
+task.start();
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

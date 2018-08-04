@@ -1,10 +1,9 @@
-const db = require('../models');
 const axios = require('axios');
-const cron = require('node-cron');
 const Pool = require('pg-pool');
 const {
   Client,
 } = require('pg');
+const db = require('../models');
 
 const options = {
   host: process.env.DB_HOST,
@@ -100,14 +99,10 @@ async function retrieveDockerHubStat(url) {
   }
 }
 
-const task = cron.schedule('0 0 * * *', () => {
-  retrieveDockerHubStat('https://registry.hub.docker.com/v2/repositories/wangqiru/ttrss/');
-});
-
-task.start();
 
 module.exports = {
   getRSSStat,
   getHuginnStat,
   getDockerHubStat,
+  retrieveDockerHubStat,
 };
