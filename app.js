@@ -6,7 +6,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cron = require('node-cron');
-const passport = require('./helpers/auth');
+const passport = require('./backend/helpers/auth');
 
 const article = require('./frontend/routes/ArticleRoute');
 const job = require('./frontend/routes/JobRoute');
@@ -23,9 +23,11 @@ app.set('view engine', 'jade');
 app.use(favicon(path.join(__dirname, 'frontend', 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true,
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }),
+);
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'frontend', 'public')));
 
@@ -41,13 +43,16 @@ app.use('/api/v1/siterule', passport.authenticate('localapikey'), siteRule);
 app.use('/api/v1/job', passport.authenticate('localapikey'), job);
 app.use('/api/v1/clean', passport.authenticate('localapikey'), dataCleaner);
 
+const statController = require('./backend/controllers/StatController');
+
 const task = cron.schedule('0 0 * * *', () => {
-  statController.retrieveDockerHubStat('https://registry.hub.docker.com/v2/repositories/wangqiru/ttrss/');
+  statController.retrieveDockerHubStat(
+    'https://registry.hub.docker.com/v2/repositories/wangqiru/ttrss/',
+  );
   console.log('retrieveDockerHubStat trigger');
 });
 
 task.start();
-
 
 // const test = require('./backend/controllers/JobController');
 
