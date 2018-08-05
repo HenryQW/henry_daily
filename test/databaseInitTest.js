@@ -2,7 +2,7 @@ require('dotenv').config();
 const {
   expect,
 } = require('chai');
-const db = require('../models');
+const db = require('../backend/models');
 const siteRules = require('../config/siteRules');
 
 beforeEach(async () => {

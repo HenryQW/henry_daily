@@ -2,7 +2,7 @@ const axios = require('axios');
 const phantom = require('phantom');
 const cheerio = require('cheerio');
 const urlUtil = require('url');
-const siteRule = require('./siteRuleController');
+const siteRule = require('./SiteRuleController');
 
 async function startCheerioProcess(content, selector) {
   const $ = cheerio.load(content, {
@@ -48,14 +48,11 @@ async function getTextViaPhantomJS(url) {
 
 async function getTextViaMercury(url) {
   try {
-    const res = await axios.get(
-      `https://mercury.postlight.com/parser?url=${url}`,
-      {
-        headers: {
-          'x-api-key': process.env.MERCURY,
-        },
+    const res = await axios.get(`https://mercury.postlight.com/parser?url=${url}`, {
+      headers: {
+        'x-api-key': process.env.MERCURY,
       },
-    );
+    });
     return res.data;
   } catch (error) {
     Error(error);
@@ -64,7 +61,9 @@ async function getTextViaMercury(url) {
 }
 
 async function dispatch(url) {
-  const { hostname } = urlUtil.parse(url);
+  const {
+    hostname,
+  } = urlUtil.parse(url);
 
   const selector = await siteRule.getSingleSiteRuleByHostname(hostname);
 

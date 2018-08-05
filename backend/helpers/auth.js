@@ -1,11 +1,10 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-localapikey').Strategy;
-const User = require('../controllers/userController');
+const User = require('../controllers/UserController');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });
-
 
 passport.deserializeUser((id, done) => {
   User.findByApiKey(id, (err, user) => {
@@ -13,7 +12,7 @@ passport.deserializeUser((id, done) => {
   });
 });
 
-passport.use(new LocalStrategy(((apikey, done) => {
+passport.use(new LocalStrategy((apikey, done) => {
   User.findByApiKey(apikey, (err, user) => {
     if (err) {
       return done(err);
@@ -25,10 +24,6 @@ passport.use(new LocalStrategy(((apikey, done) => {
     }
     return done(null, user);
   });
-})));
-
-function authenticate(req, res, next) {
-  passport.authenticate('localapikey')(req, res, next);
-}
+}));
 
 module.exports = passport;

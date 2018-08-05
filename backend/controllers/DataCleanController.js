@@ -1,7 +1,6 @@
 const urlUtil = require('url');
-const siteRule = require('./siteRuleController');
-const fullText = require('./fullTextController');
-
+const siteRule = require('./SiteRuleController');
+const fullText = require('./FullTextController');
 
 async function startDataCleaning(req, res) {
   const {
@@ -13,21 +12,18 @@ async function startDataCleaning(req, res) {
   if (selector) {
     const content = await fullText.getTextViaPhantomJS(req.query.url);
     const result = await fullText.startCheerioProcess(content, selector);
-    res.status(200)
-      .json({
-        status: 'completed',
-        data: result,
-        message: 'Data cleaning has completed.',
-      });
+    res.status(200).json({
+      status: 'completed',
+      data: result,
+      message: 'Data cleaning has completed.',
+    });
   } else {
-    res.status(200)
-      .json({
-        status: 'failed',
-        message: `There is no data cleaner for ${hostname}`,
-      });
+    res.status(200).json({
+      status: 'failed',
+      message: `There is no data cleaner for ${hostname}`,
+    });
   }
 }
-
 
 module.exports = {
   startDataCleaning,
