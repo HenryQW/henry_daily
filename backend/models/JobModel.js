@@ -1,10 +1,13 @@
 module.exports = function (sequelize, DataTypes) {
   return sequelize.define('Job', {
-    jobId: {
-      type: DataTypes.TEXT,
+    id: {
+      type: DataTypes.INTEGER,
       primaryKey: true,
+      autoIncrement: true,
     },
+    jobId: DataTypes.TEXT,
     hostname: DataTypes.TEXT,
+    url: DataTypes.TEXT,
     title: DataTypes.TEXT,
     company: DataTypes.TEXT,
     salary: DataTypes.TEXT,

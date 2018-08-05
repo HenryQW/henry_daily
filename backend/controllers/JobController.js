@@ -2,50 +2,131 @@ const urlUtil = require('url');
 const puppeteer = require('puppeteer');
 const db = require('../models');
 
-const args = [
-  '--no-sandbox',
-  '--disable-setuid-sandbox',
-  '--disable-infobars',
-  '--window-position=0,0',
-  '--ignore-certifcate-errors',
-  '--ignore-certifcate-errors-spki-list',
-  '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"',
-];
+// const args = [
+//   '--no-sandbox',
+//   '--disable-setuid-sandbox',
+//   '--disable-infobars',
+//   '--window-position=0,0',
+//   '--ignore-certifcate-errors',
+//   '--ignore-certifcate-errors-spki-list',
+//   '--user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko)',
+// ];
 
-const options = {
-  args,
-  headless: true,
-  ignoreHTTPSErrors: true,
-  userDataDir: './tmp',
-};
+// const options = {
+//   args,
+//   headless: true,
+//   ignoreHTTPSErrors: true,
+//   userDataDir: './tmp',
+// };
 
-async function totalJobs(req, res) {
+
+async function createJob(url, title, jobId) {
+  const {
+    hostname,
+  } = urlUtil.parse(url);
+
+  const dbResult = await db.Job.create({
+    jobId,
+    url,
+    title,
+    hostname,
+  });
+
+  return dbResult;
+}
+
+
+async function updateJob(result, id) {
+  await db.Job.update({
+    company: result.company,
+    salary: result.salary,
+    location: result.location,
+    desc: result.desc,
+  }, {
+    where: {
+      id,
+    },
+  });
+}
+
+async function getLastFiftyJobs(req, res) {
   try {
-    const dbResult = await db.Job.create({
-      jobId: req.body.jobId,
-      url: req.body.url,
+    const data = await db.Job.findAll({
+      limit: 50,
+      order: [
+        ['createdAt', 'DESC'],
+      ],
     });
-
-    getTotalJobContent(req.body.url);
-
     res.status(200)
       .json({
         status: 'success',
-        message: `Inserted Job ${dbResult.id}.`,
+        data,
+        message: 'Retrieved Last 50 Articles',
       });
   } catch (error) {
     Error(error);
   }
 }
 
-async function getTotalJobContent(url) {
+// async function getJobContent(content, selector) {
+//   const $ = cheerio.load(content, {
+//     decodeEntities: false,
+//     normalizeWhitespace: true,
+//   });
+
+//   const company = await $(selector.company)
+//     .text()
+//     .trim();
+
+//   const salary = await $(selector.salary)
+//     .text()
+//     .trim();
+
+//   const location = await $(selector.location)
+//     .text()
+//     .trim();
+
+//   const desc = await $(selector.desc)
+//     .html()
+//     .trim();
+
+//   return {
+//     company,
+//     salary,
+//     location,
+//     desc,
+//   };
+// }
+
+// async function extractTotalJobContent(url, jobId) {
+//   try {
+//     const content = await fullText.getTextViaMercury(url);
+
+//     const selector = {
+//       company: '#companyJobsLink',
+//       salary: '.salary.icon div',
+//       location: 'div.travelTime-locationText',
+//       desc: 'div.job-description',
+//     };
+
+//     const result = await getJobContent(content, selector);
+
+//     await updateJob(result, jobId);
+//   } catch (error) {
+//     Error(error);
+//   }
+// }
+
+
+async function getTotalJobContent(url, id) {
   try {
-    const browser = await puppeteer.launch();
+    // const browser = await puppeteer.launch(options);
+    const browser = await puppeteer.connect({
+      browserWSEndpoint: process.env.CHROME_ADDRESS,
+    });
     const page = await browser.newPage();
 
-    await page.goto('https://www.totaljobs.com/job/transport-planner/spider-web-recruitment-ltd-job82491358');
-    // await page.goto('https://google.com');
-
+    await page.goto(url);
 
     const salary = await page.evaluate(() => document.querySelector('.salary.icon div').innerText);
 
@@ -55,27 +136,42 @@ async function getTotalJobContent(url) {
 
     await browser.close();
 
-    const location = result.jobLocation.addressLocality + result.jobLocation.postalCode;
+    const location = `${result.jobLocation.address.addressLocality}, ${result.jobLocation.address.postalCode}`;
 
-    await db.Job.update({
-      hostname: urlUtil.parse(url),
-      title: result.title,
+    const obj = {
       company: result.hiringOrganization.name,
       salary,
       location,
       desc: result.description,
-    }, {
-      where: {
-        url,
-      },
-    });
+    };
+
+    await updateJob(obj, id);
   } catch (error) {
     Error(error);
   }
   return null;
 }
 
+async function totalJobAPI(req, res) {
+  const {
+    url,
+    jobId,
+    title,
+  } = req.body;
+
+  const dbResult = await createJob(url, title, jobId);
+
+  getTotalJobContent(url, dbResult.id);
+
+  res.status(200)
+    .json({
+      status: 'success',
+      message: `Inserted Job ${dbResult.id}.`,
+    });
+}
+
 module.exports = {
-  totalJobs,
+  totalJobAPI,
+  getLastFiftyJobs,
   getTotalJobContent,
 };
