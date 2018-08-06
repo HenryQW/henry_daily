@@ -55,9 +55,9 @@ const task = cron.schedule('0 0 * * *', async () => {
 
 task.start();
 
-// const test = require('./backend/controllers/JobController');
+const test = require('./backend/controllers/FullTextController');
 
-// test.getTotalJobContent('2');
+test.getTextViaPhantomJS('https://www.totaljobs.com/job/junior-business-analyst/celsa-manufacturing-uk-ltd-job82229014');
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
