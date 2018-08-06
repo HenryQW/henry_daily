@@ -87,12 +87,12 @@ async function retrieveDockerHubStat(url) {
   try {
     const result = await axios.get(url);
 
-    const dbResult = await db.DockerHub.create({
+    await db.DockerHub.create({
       repo: `${result.data.namespace}/${result.data.name}`,
       pull: result.data.pull_count,
       star: result.data.star_count,
     });
-    return dbResult.id != null;
+    return result.data;
   } catch (error) {
     Error(error);
     return false;

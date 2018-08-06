@@ -45,11 +45,12 @@ app.use('/api/v1/clean', passport.authenticate('localapikey'), dataCleaner);
 
 const statController = require('./backend/controllers/StatController');
 
-const task = cron.schedule('0 0 * * *', () => {
-  statController.retrieveDockerHubStat(
+
+const task = cron.schedule('0 0 * * *', async () => {
+  const result = await statController.retrieveDockerHubStat(
     'https://registry.hub.docker.com/v2/repositories/wangqiru/ttrss/',
   );
-  console.log('retrieveDockerHubStat trigger');
+  console.log(`Pull count: ${result.pull_count}`);
 });
 
 task.start();
