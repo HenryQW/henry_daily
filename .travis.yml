@@ -8,19 +8,11 @@ services:
 #   only:
 #   - master
 env:
-  - DB_HOST=$DB_HOST DB_PORT=$DB_PORT DB_USER=$DB_USER DB_PASS=$DB_PASS DAILY_DB_NAME=$DAILY_DB_NAME RSS_DB_NAME=$RSS_DB_NAME HUGINN_DB_NAME=$HUGINN_DB_NAME KEY=$KEY MERCURY=$MERCURY HUGINN_RSS=$HUGINN_RSS 
+  - DB_HOST=$DB_HOST DB_PORT=$DB_PORT DB_USER=$DB_USER DB_PASS=$DB_PASS DAILY_DB_NAME=$DAILY_DB_NAME RSS_DB_NAME=$RSS_DB_NAME HUGINN_DB_NAME=$HUGINN_DB_NAME KEY=$KEY MERCURY=$MERCURY HUGINN_RSS=$HUGINN_RSS  SENTRY=$SENTRY
 
-git:
-  submodules:
-    false
-before_install:
-  - sed -ie 's/git@github.com:/https:\/\/'"$GITHUB_TOKEN"'@github.com\//' .gitmodules
-  - git submodule update --init --recursive
-  - npm install
 install: 
   - chmod a+x deploy.sh && ./deploy.sh
 notifications:
   email:
     recipients:
       - travis-ci@henry.wang
-    on_success: never
