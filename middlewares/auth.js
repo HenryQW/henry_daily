@@ -1,5 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-localapikey').Strategy;
+const Raven = require('raven');
 const User = require('../controllers/userController');
 
 passport.serializeUser((user, done) => {
@@ -18,12 +19,11 @@ passport.use(new LocalStrategy((apikey, done) => {
       return done(err);
     }
     if (!user) {
-      return done(null, false, {
-        message: `Invalid apikey : ${apikey}`,
-      });
+      Raven.captureException(Error(`Unauthorized API key: ${apikey}`), () => done(null, false));
     }
     return done(null, user);
   });
 }));
+
 
 module.exports = passport;

@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const job = require('../controllers/JobController');
+const job = require('../controllers/jobController');
 
 router.get('', job.getLastFiftyJobs);
 router.post('/totaljob', job.totalJobAPI);
