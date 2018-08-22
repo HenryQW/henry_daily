@@ -1,6 +1,6 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-localapikey').Strategy;
-const User = require('../controllers/UserController');
+const User = require('../controllers/userController');
 
 passport.serializeUser((user, done) => {
   done(null, user.id);

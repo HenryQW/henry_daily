@@ -6,7 +6,7 @@
     "start": "gulp & node ./bin/www",
     "deploy": "gulp deploy & node ./bin/www",
     "test": "mocha --exit --timeout 10000",
-    "debug": "gulp & node --inspect-brk=3008 ./bin/www",
+    "debug": "gulp & node --inspect-brk=9229 ./bin/www",
     "format": "eslint \"**/*.js\" --fix"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "debug": "^3.1.0",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
+    "git-rev-sync": "^1.12.0",
     "hoek": "^5.0.3",
     "moment": "^2.22.2",
     "morgan": "^1.9.0",
@@ -33,6 +34,7 @@
     "pg-hstore": "^2.3.2",
     "phantom": "^6.0.3",
     "puppeteer": "^1.6.1",
+    "raven": "^2.6.3",
     "sequelize": "^4.38.0",
     "serve-favicon": "^2.5.0"
   },
