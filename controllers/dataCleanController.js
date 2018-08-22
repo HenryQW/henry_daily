@@ -1,6 +1,6 @@
 const urlUtil = require('url');
-const siteRule = require('./SiteRuleController');
-const fullText = require('./FullTextController');
+const siteRule = require('./siteRuleController');
+const fullText = require('./fullTextController');
 
 async function startDataCleaning(req, res) {
   const {

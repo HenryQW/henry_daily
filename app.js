@@ -6,21 +6,20 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const cron = require('node-cron');
-const passport = require('./backend/helpers/auth');
-
-const article = require('./frontend/routes/ArticleRoute');
-const job = require('./frontend/routes/JobRoute');
-const siteRule = require('./frontend/routes/SiteRuleRoute');
-const stat = require('./frontend/routes/StatRoute');
-const dataCleaner = require('./frontend/routes/DataCleanerRoute');
-const index = require('./frontend/routes/IndexRoute');
+const passport = require('./middlewares/auth');
+const article = require('./routes/ArticleRoute');
+const job = require('./routes/JobRoute');
+const siteRule = require('./routes/SiteRuleRoute');
+const stat = require('./routes/StatRoute');
+const dataCleaner = require('./routes/DataCleanerRoute');
+const index = require('./routes/IndexRoute');
 
 const app = express();
 // view engine setup
-app.set('views', path.join(__dirname, 'frontend', 'views'));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-app.use(favicon(path.join(__dirname, 'frontend', 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(
@@ -29,7 +28,7 @@ app.use(
   }),
 );
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'frontend', 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -43,7 +42,7 @@ app.use('/api/v1/siterule', passport.authenticate('localapikey'), siteRule);
 app.use('/api/v1/job', passport.authenticate('localapikey'), job);
 app.use('/api/v1/clean', passport.authenticate('localapikey'), dataCleaner);
 
-const statController = require('./backend/controllers/StatController');
+const statController = require('./controllers/statController');
 
 
 const task = cron.schedule('0 0 * * *', async () => {

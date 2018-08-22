@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const siteRules = require('../config/siteRules');
+const siteRules = require('../helpers/siteRules');
 
 const sequelize = new Sequelize(
   process.env.DAILY_DB_NAME,

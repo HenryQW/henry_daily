@@ -2,8 +2,8 @@ require('dotenv').config();
 const {
   expect,
 } = require('chai');
-const db = require('../backend/models');
-const siteRules = require('../config/siteRules');
+const db = require('../models');
+const siteRules = require('../helpers/siteRules');
 
 beforeEach(async () => {
   await db.sequelize.sync();

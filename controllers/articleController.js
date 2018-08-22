@@ -1,6 +1,6 @@
 const db = require('../models');
 
-const fullText = require('../controllers/FullTextController');
+const fullText = require('./fullTextController');
 
 async function getLastTenArticles(req, res) {
   try {

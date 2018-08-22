@@ -1,4 +1,4 @@
-export default function (sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
   return sequelize.define('User', {
     id: {
       type: DataTypes.INTEGER,
@@ -7,4 +7,4 @@ export default function (sequelize, DataTypes) {
     },
     apiKey: DataTypes.TEXT,
   });
-}
+};
