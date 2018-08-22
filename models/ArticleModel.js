@@ -1,4 +1,4 @@
-module.exports = function (sequelize, DataTypes) {
+export default function (sequelize, DataTypes) {
   return sequelize.define('Article', {
     id: {
       type: DataTypes.INTEGER,
@@ -10,4 +10,4 @@ module.exports = function (sequelize, DataTypes) {
     content: DataTypes.TEXT,
     comment: DataTypes.TEXT,
   });
-};
+}

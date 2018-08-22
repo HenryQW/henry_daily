@@ -1,4 +1,4 @@
-module.exports = function (sequelize, DataTypes) {
+export default function (sequelize, DataTypes) {
   return sequelize.define('SiteRule', {
     id: {
       type: DataTypes.INTEGER,
@@ -11,4 +11,4 @@ module.exports = function (sequelize, DataTypes) {
     content: DataTypes.TEXT,
     sanitiser: DataTypes.ARRAY(DataTypes.TEXT),
   });
-};
+}

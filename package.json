@@ -6,7 +6,8 @@
     "start": "gulp & node ./bin/www",
     "deploy": "gulp deploy & node ./bin/www",
     "test": "mocha --exit --timeout 10000",
-    "debug": "gulp & node --inspect-brk=3008 ./bin/www"
+    "debug": "gulp & node --inspect-brk=3008 ./bin/www",
+    "format": "eslint \"**/*.js\" --fix"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free-webfonts": "^1.0.9",
@@ -21,7 +22,6 @@
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "hoek": "^5.0.3",
-    "jade": "^1.11.0",
     "moment": "^2.22.2",
     "morgan": "^1.9.0",
     "node-cron": "^1.2.1",
@@ -54,6 +54,6 @@
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.1",
     "mocha": "^5.2.0",
-    "pg-pool": "^2.0.3"
+    "pug": "^2.0.3"
   }
 }

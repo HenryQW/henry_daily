@@ -1,4 +1,4 @@
-module.exports = function (sequelize, DataTypes) {
+export default function (sequelize, DataTypes) {
   return sequelize.define('DockerHub', {
     id: {
       type: DataTypes.INTEGER,
@@ -9,4 +9,4 @@ module.exports = function (sequelize, DataTypes) {
     pull: DataTypes.INTEGER,
     star: DataTypes.INTEGER,
   });
-};
+}

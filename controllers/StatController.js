@@ -1,5 +1,4 @@
 const axios = require('axios');
-const Pool = require('pg-pool');
 const {
   Client,
 } = require('pg');
