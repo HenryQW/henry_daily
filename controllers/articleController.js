@@ -51,7 +51,6 @@ async function extractArticleContent(id, url) {
   } catch (error) {
     Error(error);
   }
-  // huginn.triggerHuginn(result.title);
 }
 
 async function createArticle(req, res) {

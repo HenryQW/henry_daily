@@ -12,7 +12,6 @@ const app = express();
 const router = require('./router');
 const errorHandler = require('./middlewares/raven');
 
-
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -43,6 +42,5 @@ const task = cron.schedule('0 0 * * *', async () => {
 });
 
 task.start();
-
 
 module.exports = app;

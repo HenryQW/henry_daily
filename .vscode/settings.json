@@ -3,6 +3,7 @@
   "eslint.enable": true,
   "editor.formatOnSave": false,
   "cSpell.words": [
+    "apikey",
     "localapikey",
     "siterule"
   ]

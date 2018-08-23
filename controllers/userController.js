@@ -14,7 +14,6 @@ async function findByApiKey(apiKey, fn) {
   }
 }
 
-
 module.exports = {
   findByApiKey,
 };
