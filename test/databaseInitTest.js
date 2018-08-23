@@ -2,11 +2,13 @@ require('dotenv').config();
 const {
   expect,
 } = require('chai');
-const db = require('../backend/models');
-const siteRules = require('../config/siteRules');
+const db = require('../models');
+const siteRules = require('../helpers/siteRules');
 
-beforeEach(async () => {
+before(async () => {
+  await db.sequelize.drop();
   await db.sequelize.sync();
+  await db.User.create({ apiKey: process.env.KEY });
 });
 
 describe('database init', () => {
@@ -15,7 +17,7 @@ describe('database init', () => {
     expect(siteRule.length).to.equal(siteRules.rules.length);
   });
 
-  it('Users should have Henry', async () => {
+  it('Users should have api key', async () => {
     const user = await db.User.findById(1);
     expect(user.apiKey).to.equal(process.env.KEY);
   });

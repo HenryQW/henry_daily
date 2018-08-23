@@ -6,9 +6,9 @@ const dateLabel = dateLabels();
 
 function ready(fn) {
   if (
-    document.attachEvent ?
-      document.readyState === 'complete' :
-      document.readyState !== 'loading'
+    document.attachEvent
+      ? document.readyState === 'complete'
+      : document.readyState !== 'loading'
   ) {
     fn();
   } else {
@@ -176,8 +176,8 @@ function resizeChart() {
     const new_canvasHeight = 300;
 
     if (
-      new_canvasWidth !== canvas.width ||
-      new_canvasHeight !== canvas.height
+      new_canvasWidth !== canvas.width
+      || new_canvasHeight !== canvas.height
     ) {
       canvas.width = new_canvasWidth;
       canvas.height = new_canvasHeight;

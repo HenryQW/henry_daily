@@ -1,26 +1,29 @@
 sudo: required
+
 language: node_js
+
 node_js:
   - "10"
+
 services:
   - docker
-# branches:
-#   only:
-#   - master
-env:
-  - DB_HOST=$DB_HOST DB_PORT=$DB_PORT DB_USER=$DB_USER DB_PASS=$DB_PASS DAILY_DB_NAME=$DAILY_DB_NAME RSS_DB_NAME=$RSS_DB_NAME HUGINN_DB_NAME=$HUGINN_DB_NAME KEY=$KEY MERCURY=$MERCURY HUGINN_RSS=$HUGINN_RSS 
 
-git:
-  submodules:
-    false
+
+env:
+  - DB_HOST=$DB_HOST DB_PORT=$DB_PORT DB_USER=$DB_USER DB_PASS=$DB_PASS DAILY_DB_NAME=$DAILY_DB_NAME RSS_DB_NAME=$RSS_DB_NAME HUGINN_DB_NAME=$HUGINN_DB_NAME KEY=$KEY MERCURY=$MERCURY HUGINN_RSS=$HUGINN_RSS  SENTRY=$SENTRY
+
 before_install:
-  - sed -ie 's/git@github.com:/https:\/\/'"$GITHUB_TOKEN"'@github.com\//' .gitmodules
-  - git submodule update --init --recursive
-  - npm install
-install: 
+  - yarn
+
+install:
   - chmod a+x deploy.sh && ./deploy.sh
+
+cache:
+  yarn: true
+  directories:
+    - node_modules
+
 notifications:
   email:
     recipients:
       - travis-ci@henry.wang
-    on_success: never

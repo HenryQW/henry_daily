@@ -1,4 +1,10 @@
 {
   "eslint.autoFixOnSave": true,
-  "eslint.enable": true
+  "eslint.enable": true,
+  "editor.formatOnSave": false,
+  "cSpell.words": [
+    "apikey",
+    "localapikey",
+    "siterule"
+  ]
 }

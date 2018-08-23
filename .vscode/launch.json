@@ -10,6 +10,6 @@
     "cwd": "${workspaceRoot}",
     "runtimeExecutable": "npm",
     "runtimeArgs": ["run-script", "debug"],
-    "port": 3008
+    "port": 9229
   }]
 }

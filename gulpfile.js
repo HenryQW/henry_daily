@@ -8,25 +8,26 @@ const babel = require('gulp-babel');
 const del = require('del');
 
 const paths = {
-  scss: ['./scripts/*.scss'],
-  js: ['./scripts/*.js'],
+  scss: ['./public/scripts/*.scss'],
+  js: ['./public/scripts/*.js'],
 };
 
 gulp.task('clean', () => del(['./public/css'], ['./public/js']));
 
-gulp.task('scss', () =>
-  gulp
-    .src(paths.scss)
-    .pipe(sass({
+gulp.task('scss', () => gulp
+  .src(paths.scss)
+  .pipe(
+    sass({
       outputStyle: 'compressed',
-    }).on('error', sass.logError))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./public/css')));
+    }).on('error', sass.logError),
+  )
+  .pipe(sourcemaps.write())
+  .pipe(gulp.dest('./public/css')));
 
-gulp.task('js', () =>
-  gulp
-    .src(paths.js)
-    .pipe(babel({
+gulp.task('js', () => gulp
+  .src(paths.js)
+  .pipe(
+    babel({
       presets: ['env'],
       plugins: [
         [
@@ -37,14 +38,17 @@ gulp.task('js', () =>
           },
         ],
       ],
-    }))
-    .pipe(browserify({
+    }),
+  )
+  .pipe(
+    browserify({
       insertGlobals: true,
-    }))
-    .pipe(uglify())
-    .pipe(concat('index.js'))
-    .pipe(sourcemaps.write())
-    .pipe(gulp.dest('./public/js')));
+    }),
+  )
+  .pipe(uglify())
+  .pipe(concat('index.js'))
+  .pipe(sourcemaps.write())
+  .pipe(gulp.dest('./public/js')));
 
 gulp.task('watch', () => {
   gulp.watch(paths.scss, gulp.series('scss'));
@@ -56,7 +60,4 @@ gulp.task(
   gulp.series('clean', gulp.parallel('scss', 'js'), 'watch'),
 );
 
-gulp.task(
-  'deploy',
-  gulp.series('clean', gulp.parallel('scss', 'js')),
-);
+gulp.task('deploy', gulp.series('clean', gulp.parallel('scss', 'js')));
