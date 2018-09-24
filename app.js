@@ -35,10 +35,9 @@ app.use(errorHandler);
 const statController = require('./controllers/statController');
 
 const task = cron.schedule('0 0 * * *', async () => {
-  const result = await statController.retrieveDockerHubStat(
+  await statController.retrieveDockerHubStat(
     'https://registry.hub.docker.com/v2/repositories/wangqiru/ttrss/',
   );
-  console.log(`Pull count: ${result.pull_count}`);
 });
 
 task.start();
