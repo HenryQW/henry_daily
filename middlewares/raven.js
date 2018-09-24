@@ -1,9 +1,6 @@
 const Raven = require('raven');
-const git = require('git-rev-sync');
 
-Raven.config(process.env.SENTRY, {
-  release: git.short(),
-}).install();
+Raven.config(process.env.SENTRY).install();
 
 module.exports = async (req, res, next) => {
   try {
