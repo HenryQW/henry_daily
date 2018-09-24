@@ -26,5 +26,9 @@ router.post('/api/v1/job', passport.authenticate('localapikey'), job);
 
 router.use('/api/v1/clean', passport.authenticate('localapikey'), require('./routes/DataCleanerRoute'));
 
+const rail = require('./routes/RailRoute');
+
+router.use('/api/v1/rail', passport.authenticate('localapikey'), rail);
+
 
 module.exports = router;
