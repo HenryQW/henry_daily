@@ -13,5 +13,7 @@ RUN apk add --update --no-cache build-base bash curl python yarn &&\
   rm -rf /usr/share/man /tmp/* /var/tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp
 
 ENV NODE_ENV=production
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+
 EXPOSE 3000
 CMD ["npm", "run", "deploy"]
