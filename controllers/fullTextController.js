@@ -48,11 +48,7 @@ async function getTextViaPhantomJS(url) {
 
 async function getTextViaMercury(url) {
   try {
-    const res = await axios.get(`https://mercury.postlight.com/parser?url=${url}`, {
-      headers: {
-        'x-api-key': process.env.MERCURY,
-      },
-    });
+    const res = await axios.get(`service.mercury:3000/parser?url=${url}`);
     return res.data;
   } catch (error) {
     Error(error);
