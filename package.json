@@ -17,7 +17,7 @@
     "body-parser": "1.18.3",
     "chart.js": "2.7.2",
     "cheerio": "1.0.0-rc.2",
-    "cookie-parser": "1.4.3",
+    "cookie-parser": "1.4.4",
     "debug": "3.2.5",
     "dotenv": "6.0.0",
     "express": "4.16.3",
