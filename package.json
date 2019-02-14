@@ -49,7 +49,7 @@
     "del": "3.0.0",
     "eslint": "5.13.0",
     "eslint-config-airbnb-base": "13.1.0",
-    "eslint-plugin-import": "2.14.0",
+    "eslint-plugin-import": "2.16.0",
     "gulp": "4.0.0",
     "gulp-babel": "7.0.1",
     "gulp-browserify": "0.5.1",
