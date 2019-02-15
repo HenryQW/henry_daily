@@ -35,7 +35,7 @@
     "pg": "7.4.3",
     "pg-hstore": "2.3.2",
     "phantom": "6.0.3",
-    "puppeteer": "1.8.0",
+    "puppeteer": "1.12.2",
     "raven": "2.6.4",
     "sequelize": "4.42.0",
     "serve-favicon": "2.5.0"
