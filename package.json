@@ -51,7 +51,7 @@
     "eslint-config-airbnb-base": "13.1.0",
     "eslint-plugin-import": "2.16.0",
     "gulp": "4.0.0",
-    "gulp-babel": "7.0.1",
+    "gulp-babel": "8.0.0",
     "gulp-browserify": "0.5.1",
     "gulp-concat": "2.6.1",
     "gulp-sass": "4.0.2",
