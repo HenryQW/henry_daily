@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free-webfonts": "1.0.9",
-    "ajv": "6.9.1",
+    "ajv": "6.9.2",
     "axios": "0.18.0",
     "babel-polyfill": "6.26.0",
     "body-parser": "1.18.3",
