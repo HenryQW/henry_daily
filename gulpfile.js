@@ -28,12 +28,11 @@ gulp.task('js', () => gulp
   .src(paths.js)
   .pipe(
     babel({
-      presets: ['env'],
+      presets: ['@babel/preset-env'],
       plugins: [
         [
-          'transform-runtime',
+          '@babel/plugin-transform-runtime',
           {
-            polyfill: false,
             regenerator: true,
           },
         ],
