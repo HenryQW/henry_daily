@@ -10,7 +10,7 @@
     "lint": "eslint \"**/*.js\" --fix --quiet"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.7.2",
+    "@fortawesome/fontawesome-free": "5.7.2",
     "ajv": "6.10.0",
     "axios": "0.18.0",
     "body-parser": "1.18.3",
@@ -40,10 +40,10 @@
     "serve-favicon": "2.5.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.3.4",
-    "@babel/plugin-transform-runtime": "^7.3.4",
-    "@babel/preset-env": "^7.3.4",
-    "@babel/runtime": "^7.3.4",
+    "@babel/core": "7.3.4",
+    "@babel/plugin-transform-runtime": "7.3.4",
+    "@babel/preset-env": "7.3.4",
+    "@babel/runtime": "7.3.4",
     "chai": "4.2.0",
     "del": "4.0.0",
     "eslint": "5.15.0",
