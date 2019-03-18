@@ -39,7 +39,7 @@
     "sequelize": "5.1.0",
     "serve-favicon": "2.5.0",
     "shell-quote": "1.6.1",
-    "uglify-js": "2.6.0"
+    "uglify-js": "2.8.29"
   },
   "devDependencies": {
     "@babel/core": "7.3.4",
