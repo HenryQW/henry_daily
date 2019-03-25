@@ -33,7 +33,7 @@
     "passport-localapikey": "0.0.3",
     "pg": "7.9.0",
     "pg-hstore": "2.3.2",
-    "phantom": "6.0.3",
+    "phantom": "6.2.0",
     "puppeteer": "1.13.0",
     "raven": "2.6.4",
     "sequelize": "5.1.0",
