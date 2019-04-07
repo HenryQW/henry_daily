@@ -18,7 +18,7 @@ describe('database init', () => {
   });
 
   it('Users should have api key', async () => {
-    const user = await db.User.findById(1);
+    const user = await db.User.findByPk(1);
     expect(user.apiKey).to.equal(process.env.KEY);
   });
 });

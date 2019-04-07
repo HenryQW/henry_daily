@@ -24,7 +24,7 @@ async function getLastTenArticles(req, res) {
 
 async function getSingleArticle(req, res) {
   try {
-    const data = await db.Article.findById(parseInt(req.params.id));
+    const data = await db.Article.findByPk(parseInt(req.params.id));
     res.status(200)
       .json({
         status: 'success',
