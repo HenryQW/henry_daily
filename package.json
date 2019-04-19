@@ -31,7 +31,7 @@
     "opencc": "1.0.5",
     "passport": "0.4.0",
     "passport-localapikey": "0.0.3",
-    "pg": "7.9.0",
+    "pg": "7.10.0",
     "pg-hstore": "2.3.2",
     "phantom": "6.2.0",
     "puppeteer": "1.14.0",
