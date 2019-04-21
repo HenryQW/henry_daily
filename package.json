@@ -49,7 +49,7 @@
     "eslint": "5.16.0",
     "eslint-config-airbnb-base": "13.1.0",
     "eslint-plugin-import": "2.17.2",
-    "gulp": "4.0.0",
+    "gulp": "4.0.1",
     "gulp-babel": "8.0.0",
     "gulp-browserify": "0.5.1",
     "gulp-concat": "2.6.1",
