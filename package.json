@@ -36,7 +36,7 @@
     "phantom": "6.2.0",
     "puppeteer": "1.15.0",
     "raven": "2.6.4",
-    "sequelize": "5.8.3",
+    "sequelize": "5.8.5",
     "serve-favicon": "2.5.0"
   },
   "devDependencies": {
