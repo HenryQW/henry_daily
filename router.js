@@ -40,4 +40,10 @@ router.use(
     require('./routes/OpenCCRoute')
 );
 
+router.use(
+    '/api/v1/wechat',
+    passport.authenticate('localapikey'),
+    require('./routes/WechatRoute')
+);
+
 module.exports = router;
