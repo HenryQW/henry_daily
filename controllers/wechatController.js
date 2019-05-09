@@ -31,7 +31,7 @@ const listPost = async (req, res) => {
                     .map((e) => ({
                         guid: e.id,
                         link: e.link_orig,
-                        title: e.title,
+                        title: `[${e.member.nick}] ${e.title}`,
                         author: e.member.wechat_name || e.member.nick,
                         wechat: e.member.wechat_id || e.member.nick,
                         pubDate: new Date(e.ct * 1000),
