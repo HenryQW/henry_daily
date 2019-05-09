@@ -6,7 +6,7 @@
     "start": "gulp & node ./bin/www",
     "deploy": "gulp deploy & node ./bin/www",
     "test": "mocha --exit --timeout 10000",
-    "debug": "gulp & node --inspect-brk=9229 ./bin/www",
+    "debug": "gulp & nodemon --inspect ./bin/www",
     "format": "eslint \"**/*.js\" --fix && prettier \"**/*.js\" --write"
   },
   "husky": {
@@ -62,7 +62,8 @@
     "gulp-uglify": "3.0.2",
     "husky": "2.2.0",
     "jade": "1.11.0",
-    "mocha": "6.1.1",
+    "mocha": "6.1.2",
+    "nodemon": "1.19.0",
     "prettier": "1.17.0"
   }
 }
