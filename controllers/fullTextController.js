@@ -36,7 +36,7 @@ async function getTextViaPhantomJS(url) {
         await page.open(url);
         const content = await page.property('content');
 
-        page.close();
+        await page.close();
         instance.exit();
 
         return content;
