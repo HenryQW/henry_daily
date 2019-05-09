@@ -19,53 +19,49 @@ const db = require('../models');
 //   userDataDir: './tmp',
 // };
 
-
 async function createJob(url, title, jobId) {
-  const {
-    hostname,
-  } = urlUtil.parse(url);
+    const { hostname } = urlUtil.parse(url);
 
-  const dbResult = await db.Job.create({
-    jobId,
-    url,
-    title,
-    hostname,
-  });
+    const dbResult = await db.Job.create({
+        jobId,
+        url,
+        title,
+        hostname,
+    });
 
-  return dbResult;
+    return dbResult;
 }
 
-
 async function updateJob(result, id) {
-  await db.Job.update({
-    company: result.company,
-    salary: result.salary,
-    location: result.location,
-    desc: result.desc,
-  }, {
-    where: {
-      id,
-    },
-  });
+    await db.Job.update(
+        {
+            company: result.company,
+            salary: result.salary,
+            location: result.location,
+            desc: result.desc,
+        },
+        {
+            where: {
+                id,
+            },
+        }
+    );
 }
 
 async function getLastFiftyJobs(req, res) {
-  try {
-    const data = await db.Job.findAll({
-      limit: 50,
-      order: [
-        ['createdAt', 'DESC'],
-      ],
-    });
-    res.status(200)
-      .json({
-        status: 'success',
-        data,
-        message: 'Retrieved Last 50 Articles',
-      });
-  } catch (error) {
-    Error(error);
-  }
+    try {
+        const data = await db.Job.findAll({
+            limit: 50,
+            order: [['createdAt', 'DESC']],
+        });
+        res.status(200).json({
+            status: 'success',
+            data,
+            message: 'Retrieved Last 50 Articles',
+        });
+    } catch (error) {
+        Error(error);
+    }
 }
 
 // async function getJobContent(content, selector) {
@@ -117,61 +113,63 @@ async function getLastFiftyJobs(req, res) {
 //   }
 // }
 
-
 async function getTotalJobContent(url, id) {
-  try {
-    // const browser = await puppeteer.launch(options);
-    const browser = await puppeteer.connect({
-      browserWSEndpoint: process.env.CHROME_ADDRESS,
-    });
-    const page = await browser.newPage();
+    try {
+        // const browser = await puppeteer.launch(options);
+        const browser = await puppeteer.connect({
+            browserWSEndpoint: process.env.CHROME_ADDRESS,
+        });
+        const page = await browser.newPage();
 
-    await page.goto(url);
+        await page.goto(url);
 
-    const salary = await page.evaluate(() => document.querySelector('.salary.icon div').innerText);
+        const salary = await page.evaluate(
+            // eslint-disable-next-line no-undef
+            () => document.querySelector('.salary.icon div').innerText
+        );
 
-    const json = await page.$eval('script[type="application/ld+json"]', el => el.text);
+        const json = await page.$eval(
+            'script[type="application/ld+json"]',
+            (el) => el.text
+        );
 
-    const result = JSON.parse(json);
+        const result = JSON.parse(json);
 
-    await browser.close();
+        await browser.close();
 
-    const location = `${result.jobLocation.address.addressLocality}, ${result.jobLocation.address.postalCode}`;
+        const location = `${result.jobLocation.address.addressLocality}, ${
+            result.jobLocation.address.postalCode
+        }`;
 
-    const obj = {
-      company: result.hiringOrganization.name,
-      salary,
-      location,
-      desc: result.description,
-    };
+        const obj = {
+            company: result.hiringOrganization.name,
+            salary,
+            location,
+            desc: result.description,
+        };
 
-    await updateJob(obj, id);
-  } catch (error) {
-    Error(error);
-  }
-  return null;
+        await updateJob(obj, id);
+    } catch (error) {
+        Error(error);
+    }
+    return null;
 }
 
 async function totalJobAPI(req, res) {
-  const {
-    url,
-    jobId,
-    title,
-  } = req.body;
+    const { url, jobId, title } = req.body;
 
-  const dbResult = await createJob(url, title, jobId);
+    const dbResult = await createJob(url, title, jobId);
 
-  getTotalJobContent(url, dbResult.id);
+    getTotalJobContent(url, dbResult.id);
 
-  res.status(200)
-    .json({
-      status: 'success',
-      message: `Inserted Job ${dbResult.id}.`,
+    res.status(200).json({
+        status: 'success',
+        message: `Inserted Job ${dbResult.id}.`,
     });
 }
 
 module.exports = {
-  totalJobAPI,
-  getLastFiftyJobs,
-  getTotalJobContent,
+    totalJobAPI,
+    getLastFiftyJobs,
+    getTotalJobContent,
 };

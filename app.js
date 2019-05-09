@@ -16,9 +16,9 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  }),
+    bodyParser.urlencoded({
+        extended: true,
+    })
 );
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -35,9 +35,9 @@ app.use(errorHandler);
 const statController = require('./controllers/statController');
 
 const task = cron.schedule('0 0 * * *', async () => {
-  await statController.retrieveDockerHubStat(
-    'https://registry.hub.docker.com/v2/repositories/wangqiru/ttrss/',
-  );
+    await statController.retrieveDockerHubStat(
+        'https://registry.hub.docker.com/v2/repositories/wangqiru/ttrss/'
+    );
 });
 
 task.start();

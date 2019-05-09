@@ -24,12 +24,20 @@ const job = require('./routes/JobRoute');
 router.use('/api/v1/job', passport.authenticate('localapikey'), job);
 router.post('/api/v1/job', passport.authenticate('localapikey'), job);
 
-router.use('/api/v1/clean', passport.authenticate('localapikey'), require('./routes/DataCleanerRoute'));
+router.use(
+    '/api/v1/clean',
+    passport.authenticate('localapikey'),
+    require('./routes/DataCleanerRoute')
+);
 
 const rail = require('./routes/RailRoute');
 
 router.use('/api/v1/rail', passport.authenticate('localapikey'), rail);
 
-router.use('/api/v1/opencc', passport.authenticate('localapikey'), require('./routes/OpenCCRoute'));
+router.use(
+    '/api/v1/opencc',
+    passport.authenticate('localapikey'),
+    require('./routes/OpenCCRoute')
+);
 
 module.exports = router;

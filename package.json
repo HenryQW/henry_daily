@@ -47,7 +47,12 @@
     "@babel/preset-env": "7.4.4",
     "@babel/runtime": "7.4.4",
     "chai": "4.2.0",
+    "debug": "4.1.1",
     "del": "4.1.0",
+    "dotenv": "7.0.0",
+    "eslint": "5.3.0",
+    "eslint-config-prettier": "4.2.0",
+    "eslint-plugin-prettier": "3.0.1",
     "gulp": "4.0.1",
     "gulp-babel": "8.0.0",
     "gulp-browserify": "0.5.1",
@@ -55,14 +60,9 @@
     "gulp-sass": "4.0.2",
     "gulp-sourcemaps": "2.6.5",
     "gulp-uglify": "3.0.2",
+    "husky": "2.2.0",
     "jade": "1.11.0",
     "mocha": "6.1.1",
-    "debug": "4.1.1",
-    "dotenv": "7.0.0",
-    "eslint": "5.3.0",
-    "eslint-config-prettier": "4.2.0",
-    "eslint-plugin-prettier": "3.0.1",
-    "husky": "2.2.0",
     "prettier": "1.17.0"
   }
 }
