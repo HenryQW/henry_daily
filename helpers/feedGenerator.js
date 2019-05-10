@@ -22,6 +22,7 @@ const generateFeed = (meta, data) => {
             title: post.title,
             guid: post.guid,
             link: post.link,
+            description: post.description,
             author: [{ name: post.wechat, email: post.author }],
             date: post.pubDate,
         });
