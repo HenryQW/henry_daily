@@ -42,7 +42,7 @@
     "raven": "2.6.4",
     "redis": "2.8.0",
     "request-promise": "4.2.4",
-    "sequelize": "5.8.5",
+    "sequelize": "5.8.6",
     "serve-favicon": "2.5.0"
   },
   "devDependencies": {
