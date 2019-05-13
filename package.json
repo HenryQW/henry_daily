@@ -7,7 +7,9 @@
     "deploy": "gulp deploy & node ./bin/www",
     "test": "mocha --exit --timeout 10000",
     "debug": "gulp & nodemon --inspect ./bin/www",
-    "format": "eslint \"**/*.js\" --fix && prettier \"**/*.js\" --write"
+    "format": "eslint \"**/*.js\" --fix && prettier \"**/*.js\" --write",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "husky": {
     "hooks": {
@@ -43,7 +45,8 @@
     "redis": "2.8.0",
     "request-promise": "4.2.4",
     "sequelize": "5.8.6",
-    "serve-favicon": "2.5.0"
+    "serve-favicon": "2.5.0",
+    "snyk": "^1.163.3"
   },
   "devDependencies": {
     "@babel/core": "7.4.4",
@@ -69,5 +72,6 @@
     "mocha": "6.1.2",
     "nodemon": "1.19.0",
     "prettier": "1.17.1"
-  }
+  },
+  "snyk": true
 }
