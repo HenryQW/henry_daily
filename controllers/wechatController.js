@@ -71,22 +71,41 @@ const getPost = async (id) => {
 
         if (response.data.rich_content) {
             response.data.rich_content.forEach((e) => {
-                if (e.img) {
-                    description += `<img src='${e.img}'>`;
-                }
-
                 if (e.new_line) {
-                    description += '<br>';
+                    description += '</div><br>';
                 }
 
-                if (e.bold) {
-                    description += e.align
-                        ? `<b style="text-align: center;display: block;">${
-                              e.text
-                          }</b>`
-                        : `<b>${e.text}</b>`;
-                } else if (e.text) {
-                    description += `<p>${e.text}</p>`;
+                if (e.img) {
+                    description += `<img src="${e.img}">`;
+                }
+
+                if (e.video) {
+                    description += `<iframe frameborder="0" src="${
+                        e.video
+                    }" allowFullScreen="true"></iframe>`;
+                }
+
+                if (e.text) {
+                    if (description.endsWith('<br>')) {
+                        description += '<div>';
+                    }
+                    let text = e.text;
+
+                    if (e.bold) {
+                        text = `<b>${text}</b>`;
+                    }
+
+                    if (e.align) {
+                        text = `<span style="text-align: center;display: block;"> ${text}
+                        </span>`;
+                    }
+
+                    if (e.color) {
+                        text = `<p style="color:${e.color}"> ${text}
+                        </p>`;
+                    }
+
+                    description += text;
                 }
             });
         } else {
