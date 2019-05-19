@@ -1,6 +1,9 @@
 FROM node:11-alpine
+
 WORKDIR /app/
 COPY . .
+
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
 RUN apk add --update --no-cache --virtual build-dependencies build-base bash curl python &&\
   mkdir -p /opt && \
@@ -11,9 +14,6 @@ RUN apk add --update --no-cache --virtual build-dependencies build-base bash cur
   npm i && \
   apk del build-dependencies  && \
   rm -rf /usr/share/man /tmp/* /var/tmp/* /var/cache/apk/* /root/.npm /root/.node-gyp
-
-ENV NODE_ENV=production
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
 
 EXPOSE 3000
 CMD ["npm", "run", "deploy"]
