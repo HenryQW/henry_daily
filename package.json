@@ -6,7 +6,7 @@
     "start": "gulp & node ./bin/www",
     "deploy": "gulp deploy & node ./bin/www",
     "test": "mocha --exit --timeout 10000",
-    "debug": "gulp & nodemon --inspect ./bin/www",
+    "dev": "gulp & nodemon --inspect ./bin/www",
     "format": "eslint \"**/*.js\" --fix && prettier \"**/*.js\" --write",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect"

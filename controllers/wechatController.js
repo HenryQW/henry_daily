@@ -28,20 +28,18 @@ const listPost = async (req, res) => {
                 }
 
                 result = await Promise.all(
-                    data
-                        .filter((e) => e.source !== '1')
-                        .map(async (e) => {
-                            const process = {
-                                guid: e.id,
-                                link: e.link_orig,
-                                title: `[${e.member.nick}] ${e.title}`,
-                                description: await getPost(e.id),
-                                author: e.member.wechat_name || e.member.nick,
-                                wechat: e.member.wechat_id || e.member.nick,
-                                pubDate: new Date(e.ct * 1000),
-                            };
-                            return Promise.resolve(process);
-                        })
+                    data.map(async (e) => {
+                        const process = {
+                            guid: e.id,
+                            link: e.link_orig,
+                            title: `[${e.member.nick}] ${e.title}`,
+                            description: await getPost(e.id),
+                            author: e.member.wechat_name || e.member.nick,
+                            wechat: e.member.wechat_id || e.member.nick,
+                            pubDate: new Date(e.ct * 1000),
+                        };
+                        return Promise.resolve(process);
+                    })
                 );
             }
             res.setHeader('Content-Type', 'application/xml');
@@ -86,10 +84,11 @@ const getPost = async (id) => {
                 }
 
                 if (e.text) {
+                    let text = e.text;
+
                     if (description.endsWith('<br>')) {
                         description += '<div>';
                     }
-                    let text = e.text;
 
                     if (e.bold) {
                         text = `<b>${text}</b>`;
@@ -101,8 +100,8 @@ const getPost = async (id) => {
                     }
 
                     if (e.color) {
-                        text = `<p style="color:${e.color}"> ${text}
-                        </p>`;
+                        text = `<span style="color:${e.color}"> ${text}
+                        </span>`;
                     }
 
                     description += text;
