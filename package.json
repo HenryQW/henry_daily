@@ -46,7 +46,7 @@
     "request-promise": "4.2.4",
     "sequelize": "5.8.6",
     "serve-favicon": "2.5.0",
-    "snyk": "1.168.0"
+    "snyk": "1.169.1"
   },
   "devDependencies": {
     "@babel/core": "7.4.5",
