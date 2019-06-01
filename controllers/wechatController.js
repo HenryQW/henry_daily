@@ -1,4 +1,4 @@
-const request = require('../helpers/request_api');
+const axios = require('axios');
 const feedGenerator = require('../helpers/feedGenerator');
 const cache = require('../middlewares/cache');
 
@@ -14,13 +14,13 @@ const listPost = async (req, res) => {
         };
 
         try {
-            let response = await request.request(uri, params);
+            let response = (await request(uri, params)).data;
             if (response && response.data && response.data.list) {
                 let data = response.data.list;
 
                 if (response.data.more) {
                     params.last_id = response.data.last_id;
-                    response = await request.request(uri, params);
+                    response = await request(uri, params);
 
                     if (response && response.data && response.data.list) {
                         data = data.concat(response.data.list);
@@ -52,7 +52,7 @@ const listPost = async (req, res) => {
 };
 
 const getPost = async (id) => {
-    const uri = process.env.WECHAT_API_POST;
+    const url = process.env.WECHAT_API_POST;
     const params = {
         id,
         h_ts: Date.now(),
@@ -64,8 +64,10 @@ const getPost = async (id) => {
     const cached = await cache.get(key);
     if (cached) {
         description = cached;
+
+
     } else {
-        const response = await request.request(uri, params);
+        const response = (await request(url, params)).data;
 
         if (response.data.rich_content) {
             response.data.rich_content.forEach((e) => {
@@ -116,6 +118,28 @@ const getPost = async (id) => {
         await cache.set(key, description, 60 * 60 * 24);
     }
     return description;
+};
+
+const request = async (url, params) => {
+    const options = {
+        method: 'POST',
+        url,
+        headers: {
+            'User-Agent': process.env.WECHAT_UA,
+            'Content-Type': 'application/json',
+        },
+        data: {
+            h_model: process.env.WECHAT_HEADER_MODEL,
+            h_ch: process.env.WECHAT_HEADER_CH,
+        },
+        json: true,
+    };
+
+    Object.keys(params).forEach((param) => {
+        options.data[param] = params[param];
+    });
+
+    return await axios(options);
 };
 
 module.exports = {

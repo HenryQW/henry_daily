@@ -8,7 +8,7 @@
     "test": "mocha --exit --timeout 10000",
     "dev": "gulp & nodemon --inspect ./bin/www",
     "format": "eslint \"**/*.js\" --fix && prettier \"**/*.js\" --write",
-    "snyk-protect": "snyk protect",
+    "snyk": "snyk protect",
     "prepublish": "npm run snyk-protect"
   },
   "husky": {
@@ -43,7 +43,6 @@
     "puppeteer": "1.17.0",
     "raven": "2.6.4",
     "redis": "2.8.0",
-    "request-promise": "4.2.4",
     "sequelize": "5.8.7",
     "serve-favicon": "2.5.0",
     "snyk": "1.170.0"
