@@ -1,4 +1,4 @@
-const axios = require('axios');
+const got = require('got');
 const cheerio = require('cheerio');
 const { DateTime } = require('luxon');
 const db = require('../models');
@@ -66,9 +66,9 @@ const updateStock = async (req, res) => {
 
 const getDividendICal = async (req, res) => {
     const url = `https://m.nasdaq.com/symbol/f/dividend-history`;
-    const response = await axios.get(url);
+    const response = await got(url);
 
-    console.log(response.data);
+    console.log(response.body);
 
     const list = await getAllStocks();
 
@@ -77,9 +77,9 @@ const getDividendICal = async (req, res) => {
             const url = `https://m.nasdaq.com/symbol/${
                 s.symbol
             }/dividend-history`;
-            const response = await axios.get(url);
+            const response = await got(url);
 
-            const $ = cheerio.load(response.data);
+            const $ = cheerio.load(response.body);
             const row = $($('#table-saw > tbody > tr')[0]).find('td');
 
             const paymentDate = DateTime.fromISO($(row[4]).text())
