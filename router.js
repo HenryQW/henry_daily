@@ -35,12 +35,6 @@ const rail = require('./routes/RailRoute');
 router.use('/api/v1/rail', passport.authenticate('localapikey'), rail);
 
 router.use(
-    '/api/v1/opencc',
-    passport.authenticate('localapikey'),
-    require('./routes/OpenCCRoute')
-);
-
-router.use(
     '/api/v1/wechat',
     passport.authenticate('localapikey'),
     require('./routes/WechatRoute')
