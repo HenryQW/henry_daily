@@ -2,7 +2,7 @@ const urlUtil = require('url');
 const siteRule = require('./siteRuleController');
 const fullText = require('./fullTextController');
 
-async function startDataCleaning(req, res) {
+const startDataCleaning = async (req, res) => {
     const { hostname } = urlUtil.parse(req.query.url);
 
     const selector = await siteRule.getSingleSiteRuleByHostname(hostname);
@@ -21,7 +21,7 @@ async function startDataCleaning(req, res) {
             message: `There is no data cleaner for ${hostname}`,
         });
     }
-}
+};
 
 module.exports = {
     startDataCleaning,

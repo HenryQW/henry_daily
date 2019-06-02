@@ -1,5 +1,5 @@
-module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('User', {
+module.exports = (sequelize, DataTypes) =>
+    sequelize.define('User', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -7,4 +7,3 @@ module.exports = function(sequelize, DataTypes) {
         },
         apiKey: DataTypes.TEXT,
     });
-};

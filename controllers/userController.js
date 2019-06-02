@@ -1,6 +1,6 @@
 const db = require('../models');
 
-async function findByApiKey(apiKey, fn) {
+const findByApiKey = async (apiKey, fn) => {
     try {
         const user = await db.User.findOne({
             where: {
@@ -11,7 +11,7 @@ async function findByApiKey(apiKey, fn) {
     } catch (error) {
         return fn(error, null);
     }
-}
+};
 
 module.exports = {
     findByApiKey,

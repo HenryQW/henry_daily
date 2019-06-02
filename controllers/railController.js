@@ -4,7 +4,7 @@ const { DateTime } = require('luxon');
 
 const rail = new Rail(process.env.NATIONAL_RAIL_API);
 
-async function getArrivals(req, res) {
+const getArrivals = async (req, res) => {
     const { origin, destination } = req.params;
     try {
         rail.getArrivalsBoardWithDetails(
@@ -17,9 +17,9 @@ async function getArrivals(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-async function getTimeTable(req, res) {
+const getTimeTable = async (req, res) => {
     const origin = req.params.origin.toUpperCase();
     const destination = req.params.destination.toUpperCase();
 
@@ -84,7 +84,7 @@ async function getTimeTable(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
 module.exports = {
     getArrivals,

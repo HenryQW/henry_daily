@@ -1,6 +1,6 @@
 const db = require('../models');
 
-async function getAllJobRules(req, res) {
+const getAllJobRules = async (req, res) => {
     try {
         const data = await db.JobRule.findAll();
         res.status(200).json({
@@ -11,9 +11,9 @@ async function getAllJobRules(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-async function getSingleJobRuleByHostname(hostname) {
+const getSingleJobRuleByHostname = async (hostname) => {
     try {
         return await db.JobRule.findOne({
             where: {
@@ -23,9 +23,9 @@ async function getSingleJobRuleByHostname(hostname) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-async function getSingleJobRule(req, res) {
+const getSingleJobRule = async (req, res) => {
     try {
         const data = await getSingleJobRuleByHostname(req.params.hostname);
         if (data !== null) {
@@ -44,9 +44,9 @@ async function getSingleJobRule(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-async function createJobRule(req, res) {
+const createJobRule = async (req, res) => {
     try {
         const dbResult = await db.JobRule.create({
             hostname: req.body.hostname,
@@ -71,9 +71,9 @@ async function createJobRule(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-async function removeJobRule(req, res) {
+const removeJobRule = async (req, res) => {
     try {
         const dbResult = await db.JobRule.destroy({
             where: {
@@ -96,7 +96,7 @@ async function removeJobRule(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
 module.exports = {
     getAllJobRules,

@@ -1,5 +1,5 @@
-module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('SiteRule', {
+module.exports = (sequelize, DataTypes) =>
+    sequelize.define('SiteRule', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -11,4 +11,3 @@ module.exports = function(sequelize, DataTypes) {
         content: DataTypes.TEXT,
         sanitiser: DataTypes.ARRAY(DataTypes.TEXT),
     });
-};

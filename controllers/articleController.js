@@ -2,7 +2,7 @@ const db = require('../models');
 
 const fullText = require('./fullTextController');
 
-async function getLastTenArticles(req, res) {
+const getLastTenArticles = async (req, res) => {
     try {
         const data = await db.Article.findAll({
             limit: 10,
@@ -16,9 +16,9 @@ async function getLastTenArticles(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-async function getSingleArticle(req, res) {
+const getSingleArticle = async (req, res) => {
     try {
         const data = await db.Article.findByPk(parseInt(req.params.id));
         res.status(200).json({
@@ -29,9 +29,9 @@ async function getSingleArticle(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-async function extractArticleContent(id, url) {
+const extractArticleContent = async (id, url) => {
     const result = await fullText.dispatch(url);
     try {
         await db.Article.update(
@@ -48,9 +48,9 @@ async function extractArticleContent(id, url) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-async function createArticle(req, res) {
+const createArticle = async (req, res) => {
     try {
         const dbResult = await db.Article.create({
             url: req.body.url,
@@ -66,7 +66,7 @@ async function createArticle(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
 module.exports = {
     getLastTenArticles,

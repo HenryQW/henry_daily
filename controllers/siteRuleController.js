@@ -1,6 +1,6 @@
 const db = require('../models');
 
-async function getAllSiteRules(req, res) {
+const getAllSiteRules = async (req, res) => {
     try {
         const data = await db.SiteRule.findAll();
         res.status(200).json({
@@ -11,9 +11,9 @@ async function getAllSiteRules(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-async function getSingleSiteRuleByHostname(hostname) {
+const getSingleSiteRuleByHostname = async (hostname) => {
     try {
         return await db.SiteRule.findOne({
             where: {
@@ -23,9 +23,9 @@ async function getSingleSiteRuleByHostname(hostname) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-async function getSingleSiteRule(req, res) {
+const getSingleSiteRule = async (req, res) => {
     try {
         const data = await getSingleSiteRuleByHostname(req.params.hostname);
         if (data !== null) {
@@ -46,9 +46,9 @@ async function getSingleSiteRule(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-async function createSiteRule(req, res) {
+const createSiteRule = async (req, res) => {
     try {
         const dbResult = await db.SiteRule.create({
             name: req.body.name,
@@ -72,7 +72,7 @@ async function createSiteRule(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
 module.exports = {
     getAllSiteRules,

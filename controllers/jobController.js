@@ -19,7 +19,7 @@ const db = require('../models');
 //   userDataDir: './tmp',
 // };
 
-async function createJob(url, title, jobId) {
+const createJob = async (url, title, jobId) => {
     const { hostname } = urlUtil.parse(url);
 
     const dbResult = await db.Job.create({
@@ -30,9 +30,9 @@ async function createJob(url, title, jobId) {
     });
 
     return dbResult;
-}
+};
 
-async function updateJob(result, id) {
+const updateJob = async (result, id) => {
     await db.Job.update(
         {
             company: result.company,
@@ -46,9 +46,9 @@ async function updateJob(result, id) {
             },
         }
     );
-}
+};
 
-async function getLastFiftyJobs(req, res) {
+const getLastFiftyJobs = async (req, res) => {
     try {
         const data = await db.Job.findAll({
             limit: 50,
@@ -62,58 +62,9 @@ async function getLastFiftyJobs(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-// async function getJobContent(content, selector) {
-//   const $ = cheerio.load(content, {
-//     decodeEntities: false,
-//     normalizeWhitespace: true,
-//   });
-
-//   const company = await $(selector.company)
-//     .text()
-//     .trim();
-
-//   const salary = await $(selector.salary)
-//     .text()
-//     .trim();
-
-//   const location = await $(selector.location)
-//     .text()
-//     .trim();
-
-//   const desc = await $(selector.desc)
-//     .html()
-//     .trim();
-
-//   return {
-//     company,
-//     salary,
-//     location,
-//     desc,
-//   };
-// }
-
-// async function extractTotalJobContent(url, jobId) {
-//   try {
-//     const content = await fullText.getTextViaMercury(url);
-
-//     const selector = {
-//       company: '#companyJobsLink',
-//       salary: '.salary.icon div',
-//       location: 'div.travelTime-locationText',
-//       desc: 'div.job-description',
-//     };
-
-//     const result = await getJobContent(content, selector);
-
-//     await updateJob(result, jobId);
-//   } catch (error) {
-//     Error(error);
-//   }
-// }
-
-async function getTotalJobContent(url, id) {
+const getTotalJobContent = async (url, id) => {
     try {
         // const browser = await puppeteer.launch(options);
         const browser = await puppeteer.connect({
@@ -153,9 +104,9 @@ async function getTotalJobContent(url, id) {
         Error(error);
     }
     return null;
-}
+};
 
-async function totalJobAPI(req, res) {
+const totalJobAPI = async (req, res) => {
     const { url, jobId, title } = req.body;
 
     const dbResult = await createJob(url, title, jobId);
@@ -166,7 +117,7 @@ async function totalJobAPI(req, res) {
         status: 'success',
         message: `Inserted Job ${dbResult.id}.`,
     });
-}
+};
 
 module.exports = {
     totalJobAPI,

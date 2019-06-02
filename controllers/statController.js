@@ -14,7 +14,7 @@ const options = {
     connectionTimeoutMillis: 10000,
 };
 
-async function getRSSStat(req, res) {
+const getRSSStat = async (req, res) => {
     try {
         options.database = process.env.RSS_DB_NAME;
         const client = new Client(options);
@@ -32,9 +32,9 @@ async function getRSSStat(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-async function getHuginnStat(req, res) {
+const getHuginnStat = async (req, res) => {
     try {
         options.database = process.env.HUGINN_DB_NAME;
         const client = new Client(options);
@@ -52,9 +52,9 @@ async function getHuginnStat(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-async function getDockerHubStat(req, res) {
+const getDockerHubStat = async (req, res) => {
     try {
         options.database = process.env.DAILY_DB_NAME;
         const client = new Client(options);
@@ -71,9 +71,9 @@ async function getDockerHubStat(req, res) {
     } catch (error) {
         Error(error);
     }
-}
+};
 
-async function retrieveDockerHubStat(url) {
+const retrieveDockerHubStat = async (url) => {
     try {
         const result = await axios.get(url);
 
@@ -87,7 +87,7 @@ async function retrieveDockerHubStat(url) {
         Error(error);
         return false;
     }
-}
+};
 
 module.exports = {
     getRSSStat,

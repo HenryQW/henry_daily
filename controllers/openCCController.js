@@ -22,7 +22,7 @@ const reconvert = (str) =>
             )
         );
 
-async function convert(req, res, next) {
+const convert = async (req, res, next) => {
     try {
         const opencc = new OpenCC('t2s.json');
         const title = opencc.convertSync(reconvert(req.body.title));
@@ -37,7 +37,7 @@ async function convert(req, res, next) {
         );
         next();
     }
-}
+};
 
 module.exports = {
     convert,

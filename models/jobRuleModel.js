@@ -1,5 +1,5 @@
-module.exports = function(sequelize, DataTypes) {
-    return sequelize.define('JobRule', {
+module.exports = (sequelize, DataTypes) =>
+    sequelize.define('JobRule', {
         id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -14,4 +14,3 @@ module.exports = function(sequelize, DataTypes) {
         location: DataTypes.TEXT,
         desc: DataTypes.TEXT,
     });
-};

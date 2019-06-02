@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 const urlUtil = require('url');
 const siteRule = require('./siteRuleController');
 
-async function startCheerioProcess(content, selector) {
+const startCheerioProcess = async (content, selector) => {
     const $ = cheerio.load(content, {
         decodeEntities: false,
         normalizeWhitespace: true,
@@ -26,9 +26,9 @@ async function startCheerioProcess(content, selector) {
         title,
         content: final,
     };
-}
+};
 
-async function getTextViaPhantomJS(url) {
+const getTextViaPhantomJS = async (url) => {
     try {
         const instance = await phantom.create();
         const page = await instance.createPage();
@@ -44,9 +44,9 @@ async function getTextViaPhantomJS(url) {
         Error(error);
     }
     return null;
-}
+};
 
-async function getTextViaMercury(url) {
+const getTextViaMercury = async (url) => {
     try {
         const res = await axios.get(`service.mercury:3000/parser?url=${url}`);
         return res.data;
@@ -54,9 +54,9 @@ async function getTextViaMercury(url) {
         Error(error);
     }
     return null;
-}
+};
 
-async function dispatch(url) {
+const dispatch = async (url) => {
     const { hostname } = urlUtil.parse(url);
 
     const selector = await siteRule.getSingleSiteRuleByHostname(hostname);
@@ -66,7 +66,7 @@ async function dispatch(url) {
     }
     const content = await getTextViaPhantomJS(url);
     return startCheerioProcess(content, selector);
-}
+};
 
 module.exports = {
     getTextViaMercury,
