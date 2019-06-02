@@ -1,6 +1,6 @@
 const ical = require('ical-generator');
 
-const generateICal = async (req, res, events, type) => {
+const generateICal = (res, events, type) => {
     const cal = ical({
         name: `💰${type} Calendar`,
         timezone: 'America/New_York',
@@ -9,8 +9,8 @@ const generateICal = async (req, res, events, type) => {
         events,
     });
 
-    res.status = 200;
-    res.respond = false;
+    console.log(events);
+
     cal.serve(res);
 };
 

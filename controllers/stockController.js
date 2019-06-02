@@ -36,37 +36,52 @@ const createStock = async (req, res) => {
 
 const updateStock = async (req, res) => {
     try {
-        const dbResult = await db.Article.update(
+        const dbResult = await db.Stock.update(
             {
-                share: req.params.share,
+                share: parseInt(req.body.share),
             },
             {
                 where: {
-                    symbol: req.params.symbol,
+                    symbol: req.body.symbol,
                 },
             }
         );
-        res.status(200).json({
-            status: 'success',
-            message: `Update Stock ${dbResult.id} - ${dbResult.symbol} with ${
-                dbResult.share
-            }.`,
-        });
+        if (dbResult.length === 1) {
+            res.status(200).json({
+                status: 'success',
+                message: `Update shares to ${req.body.share} for Stock ${
+                    req.body.symbol
+                }.`,
+            });
+        } else {
+            res.status(400).json({
+                status: 'error',
+                message: "Stock doesn't exist.",
+            });
+        }
     } catch (error) {
         Error(error);
     }
 };
 
 const getDividendICal = async (req, res) => {
+    const url = `https://m.nasdaq.com/symbol/f/dividend-history`;
+    const response = await axios.get(url);
+
+    console.log(response.data);
+
     const list = await getAllStocks();
+
     const events = await Promise.all(
         list.map(async (s) => {
             const url = `https://m.nasdaq.com/symbol/${
                 s.symbol
             }/dividend-history`;
             const response = await axios.get(url);
+
             const $ = cheerio.load(response.data);
             const row = $($('#table-saw > tbody > tr')[0]).find('td');
+
             const paymentDate = DateTime.fromISO($(row[4]).text())
                 .setZone('America/New_York')
                 .toISODate();
@@ -90,7 +105,7 @@ const getDividendICal = async (req, res) => {
         })
     );
 
-    ical.generateICal(req, res, events, 'Dividend');
+    ical.generateICal(res, events, 'Dividend');
 };
 
 module.exports = {
