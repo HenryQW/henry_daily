@@ -64,8 +64,6 @@ const getPost = async (id) => {
     const cached = await cache.get(key);
     if (cached) {
         description = cached;
-
-
     } else {
         const response = (await request(url, params)).data;
 

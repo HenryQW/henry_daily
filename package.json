@@ -9,7 +9,7 @@
     "dev": "gulp & nodemon --inspect ./bin/www",
     "format": "eslint \"**/*.js\" --fix && prettier \"**/*.js\" --write",
     "snyk": "snyk protect",
-    "prepublish": "npm run snyk-protect"
+    "prepublish": "npm run snyk"
   },
   "husky": {
     "hooks": {
@@ -28,6 +28,7 @@
     "express": "4.17.1",
     "feed": "3.0.0",
     "hoek": "6.1.3",
+    "ical-generator": "1.7.1",
     "luxon": "1.16.0",
     "moment": "2.24.0",
     "morgan": "1.9.1",

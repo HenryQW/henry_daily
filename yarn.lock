@@ -3936,6 +3936,13 @@ husky@2.3.0:
     run-node "^1.0.0"
     slash "^3.0.0"
 
+ical-generator@^1.7.1:
+  version "1.7.1"
+  resolved "https://registry.yarnpkg.com/ical-generator/-/ical-generator-1.7.1.tgz#8f994a44d2bb9da7b0f941723557fa6dbbf7c5a8"
+  integrity sha512-G9QAYkxZn8sVXbtl3IcRq3+AL4liQAd7J7OgRfs8WogeE5fK7hbmq3fJivaPrkd49quEcrzOIQdGko/ruYKFKQ==
+  dependencies:
+    moment-timezone "^0.5.25"
+
 iconv-lite@0.4.24, iconv-lite@^0.4.17, iconv-lite@^0.4.24, iconv-lite@^0.4.4:
   version "0.4.24"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.4.24.tgz#2022b4b25fbddc21d2f524974a474aafe733908b"
@@ -5294,7 +5301,7 @@ module-deps@~2.0.0:
     stream-combiner "~0.1.0"
     through2 "~0.4.1"
 
-moment-timezone@^0.5.21:
+moment-timezone@^0.5.21, moment-timezone@^0.5.25:
   version "0.5.25"
   resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.25.tgz#a11bfa2f74e088327f2cd4c08b3e7bdf55957810"
   integrity sha512-DgEaTyN/z0HFaVcVbSyVCUU6HeFdnNC3vE4c9cgu2dgMTvjBUBdBzWfasTBmAW45u5OIMeCJtU8yNjM22DHucw==

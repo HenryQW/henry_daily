@@ -46,4 +46,10 @@ router.use(
     require('./routes/WechatRoute')
 );
 
+router.use(
+    '/api/v1/stock',
+    passport.authenticate('localapikey'),
+    require('./routes/StockRoute')
+);
+
 module.exports = router;
