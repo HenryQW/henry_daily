@@ -72,7 +72,9 @@ const getDividendICal = async (req, res) => {
 
     const list = await getAllStocks();
 
-    const events = await Promise.all(
+    const events = [];
+
+    await Promise.all(
         list.map(async (s) => {
             const url = `https://m.nasdaq.com/symbol/${
                 s.symbol
@@ -86,22 +88,39 @@ const getDividendICal = async (req, res) => {
                 .setZone('America/New_York')
                 .toISODate();
 
+            const exDate = DateTime.fromISO($(row[0]).text())
+                .setZone('America/New_York')
+                .toISODate();
+
             s.share = s.share === 0 ? 1 : s.share;
 
-            return Promise.resolve({
+            events.push({
                 url,
                 allDay: true,
-                start: paymentDate,
-                end: paymentDate,
-                summary: `${$('h1')
+                start: exDate,
+                end: exDate,
+                summary: `📅 ${$('h1')
                     .text()
                     .replace(' Dividend Date & History', '')} Dividend: ${$(
                     row[1]
                 ).text() * s.share}`,
-                description: `Ex-date on ${DateTime.fromISO($(row[0]).text())
-                    .setZone('America/New_York')
-                    .toISODate()}`,
+                description: `To be paid on ${paymentDate}`,
             });
+
+            events.push({
+                url,
+                allDay: true,
+                start: paymentDate,
+                end: paymentDate,
+                summary: `💰 ${$('h1')
+                    .text()
+                    .replace(' Dividend Date & History', '')} Dividend: ${$(
+                    row[1]
+                ).text() * s.share}`,
+                description: `${$(row[1]).text()} per share`,
+            });
+
+            return Promise.resolve();
         })
     );
 
