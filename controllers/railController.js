@@ -3,6 +3,7 @@ const axios = require('axios');
 const { DateTime } = require('luxon');
 
 const rail = new Rail(process.env.NATIONAL_RAIL_API);
+const TRANSPORT_API = process.env.TRANSPORT_API;
 
 const getArrivals = async (req, res) => {
     const { origin, destination } = req.params;
@@ -32,7 +33,7 @@ const getTimeTable = async (req, res) => {
             ? ['Reading', 'London Paddington']
             : ['Swansea', 'Carmarthen'];
 
-    const api = `http://fcc.transportapi.com/v3/uk/train/station/${origin}/${date}`;
+    const api = `https://transportapi.com/v3/uk/train/station/${origin}/${date}`;
     try {
         const axiosList = [];
         const exist = [];
@@ -40,10 +41,14 @@ const getTimeTable = async (req, res) => {
 
         for (let i = 0; i < hourTo - hourFrom; i++) {
             axiosList.push(
-                axios.get(`${api}/${hourFrom + i}:00/timetable.json`)
+                axios.get(
+                    `${api}/${hourFrom + i}:00/timetable.json?${TRANSPORT_API}`
+                )
             );
             axiosList.push(
-                axios.get(`${api}/${hourFrom + i}:30/timetable.json`)
+                axios.get(
+                    `${api}/${hourFrom + i}:30/timetable.json?${TRANSPORT_API}`
+                )
             );
         }
 
