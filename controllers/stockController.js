@@ -92,9 +92,9 @@ const getDividendICal = async (req, res) => {
                 end: exDate,
                 summary: `📅 ${$('h1')
                     .text()
-                    .replace(' Dividend Date & History', '')} Dividend: ${$(
-                    row[1]
-                ).text() * s.share}`,
+                    .replace(' Dividend Date & History', '')} Dividend: ${(
+                    $(row[1]).text() * s.share
+                ).toFixed(2)}`,
                 description: `To be paid on ${paymentDate}`,
             });
 
@@ -105,9 +105,9 @@ const getDividendICal = async (req, res) => {
                 end: paymentDate,
                 summary: `💰 ${$('h1')
                     .text()
-                    .replace(' Dividend Date & History', '')} Dividend: ${$(
-                    row[1]
-                ).text() * s.share}`,
+                    .replace(' Dividend Date & History', '')} Dividend: ${(
+                    $(row[1]).text() * s.share
+                ).toFixed(2)}`,
                 description: `${$(row[1]).text()} per share`,
             });
 
