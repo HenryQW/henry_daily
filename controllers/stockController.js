@@ -49,9 +49,7 @@ const updateStock = async (req, res) => {
         if (dbResult.length === 1) {
             res.status(200).json({
                 status: 'success',
-                message: `Update shares to ${req.body.share} for Stock ${
-                    req.body.symbol
-                }.`,
+                message: `Update shares to ${req.body.share} for Stock ${req.body.symbol}.`,
             });
         } else {
             res.status(400).json({
@@ -71,9 +69,7 @@ const getDividendICal = async (req, res) => {
 
     await Promise.all(
         list.map(async (s) => {
-            const url = `https://m.nasdaq.com/symbol/${
-                s.symbol
-            }/dividend-history`;
+            const url = `https://m.nasdaq.com/symbol/${s.symbol}/dividend-history`;
             const response = await got(url);
 
             const $ = cheerio.load(response.body);
@@ -88,29 +84,21 @@ const getDividendICal = async (req, res) => {
             events.push({
                 url,
                 allDay: true,
-                start: exDate
-                    .plus({ days: 1 })
-                    .toISODate(),
-                end: exDate
-                    .plus({ days: 1 })
-                    .toISODate(),
+                start: exDate.plus({ days: 1 }).toISODate(),
+                end: exDate.plus({ days: 1 }).toISODate(),
                 summary: `📅 ${$('h1')
                     .text()
                     .replace(' Dividend Date & History', '')} ExDate`,
-                description: `Dividend: ${(
-                    $(row[1]).text() * s.share
-                ).toFixed(2)} to be paid on ${paymentDate.toISODate()}`,
+                description: `Dividend: ${($(row[1]).text() * s.share).toFixed(
+                    2
+                )} to be paid on ${paymentDate.toISODate()}`,
             });
 
             events.push({
                 url,
                 allDay: true,
-                start: paymentDate
-                    .plus({ days: 1 })
-                    .toISODate(),
-                end: paymentDate
-                    .plus({ days: 1 })
-                    .toISODate(),
+                start: paymentDate.plus({ days: 1 }).toISODate(),
+                end: paymentDate.plus({ days: 1 }).toISODate(),
                 summary: `💰 ${$('h1')
                     .text()
                     .replace(' Dividend Date & History', '')} Payment Date`,

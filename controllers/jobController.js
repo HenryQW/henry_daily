@@ -88,9 +88,7 @@ const getTotalJobContent = async (url, id) => {
 
         await browser.close();
 
-        const location = `${result.jobLocation.address.addressLocality}, ${
-            result.jobLocation.address.postalCode
-        }`;
+        const location = `${result.jobLocation.address.addressLocality}, ${result.jobLocation.address.postalCode}`;
 
         const obj = {
             company: result.hiringOrganization.name,

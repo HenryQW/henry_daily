@@ -37,9 +37,7 @@ const getSingleJobRule = async (req, res) => {
         }
         res.status(404).json({
             status: 'Not Found',
-            message: `No JobRule with hostname of ${
-                req.params.hostname
-            } was found`,
+            message: `No JobRule with hostname of ${req.params.hostname} was found`,
         });
     } catch (error) {
         Error(error);
@@ -89,9 +87,7 @@ const removeJobRule = async (req, res) => {
         }
         res.status(404).json({
             status: 'Not Found',
-            message: `No JobRule with hostname of ${
-                req.params.hostname
-            } was found`,
+            message: `No JobRule with hostname of ${req.params.hostname} was found`,
         });
     } catch (error) {
         Error(error);

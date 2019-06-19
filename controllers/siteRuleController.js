@@ -39,9 +39,7 @@ const getSingleSiteRule = async (req, res) => {
         }
         res.status(404).json({
             status: 'Not Found',
-            message: `No SiteRule with hostname of ${
-                req.params.hostname
-            } was found`,
+            message: `No SiteRule with hostname of ${req.params.hostname} was found`,
         });
     } catch (error) {
         Error(error);

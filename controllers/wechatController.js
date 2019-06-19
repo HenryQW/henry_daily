@@ -78,9 +78,7 @@ const getPost = async (id) => {
                 }
 
                 if (e.video) {
-                    description += `<iframe frameborder="0" src="${
-                        e.video
-                    }" allowFullScreen="true"></iframe>`;
+                    description += `<iframe frameborder="0" src="${e.video}" allowFullScreen="true"></iframe>`;
                 }
 
                 if (e.text) {
@@ -108,9 +106,7 @@ const getPost = async (id) => {
                 }
             });
         } else {
-            description = `<a href='${response.data.link_orig}'>${
-                response.data.summary
-            }</a>`;
+            description = `<a href='${response.data.link_orig}'>${response.data.summary}</a>`;
         }
 
         await cache.set(key, description, 60 * 60 * 24);

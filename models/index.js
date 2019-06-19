@@ -56,9 +56,7 @@ sequelize.sync().then(() => {
                 if (created) {
                     console.log({
                         status: 'success',
-                        message: `Inserted SiteRule ${res.id}: ${
-                            rules[rule].name
-                        }.`,
+                        message: `Inserted SiteRule ${res.id}: ${rules[rule].name}.`,
                     });
                 }
             });
