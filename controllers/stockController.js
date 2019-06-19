@@ -65,11 +65,6 @@ const updateStock = async (req, res) => {
 };
 
 const getDividendICal = async (req, res) => {
-    const url = `https://m.nasdaq.com/symbol/f/dividend-history`;
-    const response = await got(url);
-
-    console.log(response.body);
-
     const list = await getAllStocks();
 
     const events = [];

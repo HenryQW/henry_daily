@@ -9,8 +9,6 @@ const generateICal = (res, events, type) => {
         events,
     });
 
-    console.log(events);
-
     cal.serve(res);
 };
 
