@@ -79,36 +79,44 @@ const getDividendICal = async (req, res) => {
             const $ = cheerio.load(response.body);
             const row = $($('#table-saw > tbody > tr')[0]).find('td');
 
-            const paymentDate = DateTime.fromISO($(row[4]).text()).toISODate();
+            const paymentDate = DateTime.fromISO($(row[4]).text());
 
-            const exDate = DateTime.fromISO($(row[0]).text()).toISODate();
+            const exDate = DateTime.fromISO($(row[0]).text());
 
             s.share = s.share === 0 ? 1 : s.share;
 
             events.push({
                 url,
                 allDay: true,
-                start: exDate,
-                end: exDate,
+                start: exDate
+                    .plus({ days: 1 })
+                    .toISODate(),
+                end: exDate
+                    .plus({ days: 1 })
+                    .toISODate(),
                 summary: `📅 ${$('h1')
                     .text()
-                    .replace(' Dividend Date & History', '')} Dividend: ${(
+                    .replace(' Dividend Date & History', '')} ExDate`,
+                description: `Dividend: ${(
                     $(row[1]).text() * s.share
-                ).toFixed(2)}`,
-                description: `To be paid on ${paymentDate}`,
+                ).toFixed(2)} to be paid on ${paymentDate.toISODate()}`,
             });
 
             events.push({
                 url,
                 allDay: true,
-                start: paymentDate,
-                end: paymentDate,
+                start: paymentDate
+                    .plus({ days: 1 })
+                    .toISODate(),
+                end: paymentDate
+                    .plus({ days: 1 })
+                    .toISODate(),
                 summary: `💰 ${$('h1')
                     .text()
-                    .replace(' Dividend Date & History', '')} Dividend: ${(
+                    .replace(' Dividend Date & History', '')} Payment Date`,
+                description: `${$(row[1]).text()} per share, total dividend: ${(
                     $(row[1]).text() * s.share
                 ).toFixed(2)}`,
-                description: `${$(row[1]).text()} per share`,
             });
 
             return Promise.resolve();
