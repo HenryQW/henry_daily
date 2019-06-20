@@ -41,7 +41,7 @@
     "pg": "7.11.0",
     "pg-hstore": "2.3.3",
     "phantom": "6.2.0",
-    "puppeteer": "1.17.0",
+    "puppeteer": "1.18.0",
     "raven": "2.6.4",
     "redis": "2.8.0",
     "sequelize": "5.8.10",
