@@ -75,6 +75,9 @@ const getDividendICal = async (req, res) => {
             const $ = cheerio.load(response.body);
             const row = $($('#table-saw > tbody > tr')[0]).find('td');
 
+            if (row.length === 0) {
+                return Promise.resolve();
+            }
             const paymentDate = DateTime.fromISO($(row[4]).text());
 
             const exDate = DateTime.fromISO($(row[0]).text());
