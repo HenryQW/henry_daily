@@ -29,7 +29,7 @@
     "feed": "4.0.0",
     "got": "9.6.0",
     "hoek": "6.1.3",
-    "ical-generator": "1.7.1",
+    "ical-generator": "1.7.2",
     "luxon": "1.16.1",
     "moment": "2.24.0",
     "morgan": "1.9.1",
