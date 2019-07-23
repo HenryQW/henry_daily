@@ -44,7 +44,7 @@
     "puppeteer": "1.18.1",
     "raven": "2.6.4",
     "redis": "2.8.0",
-    "sequelize": "5.10.1",
+    "sequelize": "5.10.2",
     "serve-favicon": "2.5.0",
     "snyk": "1.195.1"
   },
