@@ -9,7 +9,8 @@
     "dev": "gulp & nodemon --inspect ./bin/www",
     "format": "eslint \"**/*.js\" --fix && prettier \"**/*.js\" --write",
     "snyk": "snyk protect",
-    "prepublish": "npm run snyk"
+    "prepublish": "npm run snyk-protect && npm run snyk",
+    "snyk-protect": "snyk protect"
   },
   "husky": {
     "hooks": {
@@ -46,7 +47,7 @@
     "redis": "2.8.0",
     "sequelize": "5.12.2",
     "serve-favicon": "2.5.0",
-    "snyk": "1.207.2"
+    "snyk": "^1.207.2"
   },
   "devDependencies": {
     "@babel/core": "7.5.0",
