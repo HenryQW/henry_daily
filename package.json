@@ -47,7 +47,7 @@
     "redis": "2.8.0",
     "sequelize": "5.12.2",
     "serve-favicon": "2.5.0",
-    "snyk": "^1.207.2"
+    "snyk": "^1.208.0"
   },
   "devDependencies": {
     "@babel/core": "7.5.5",
