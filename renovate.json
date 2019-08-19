@@ -1,5 +1,15 @@
 {
   "extends": [
     "config:base"
+  ],
+  "packageRules": [
+    {
+      "packageNames": [
+        "snyk"
+      ],
+      "extends": [
+        "schedule:monthly"
+      ]
+    }
   ]
 }
