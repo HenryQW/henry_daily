@@ -6514,10 +6514,10 @@ pgpass@1.x:
   dependencies:
     split "^1.0.0"
 
-phantom@6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/phantom/-/phantom-6.2.0.tgz#a8ccb0580d086279104a9310e6097571ea1d7133"
-  integrity sha512-YUbtRfLXpAx52jR3/Sx/dIuGqb2Mwv33fObe9ha2ldua6twTncdsrNQl6YbTxarFC5j7E3P806wvbHVZCD6XGQ==
+phantom@6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/phantom/-/phantom-6.3.0.tgz#ed22c76ae1f29e097d4d18752e5d4a2281190f07"
+  integrity sha512-Ptlwjp5eJiBmr3KQzFr9V/ehhcC+PGyJB38q7mnxJiwrssOEtmIWDEzQ7gIsdOXlHoW0n0+KjdAdP9U89Cm9Pw==
   dependencies:
     phantomjs-prebuilt "^2.1.16"
     split "^1.0.1"
