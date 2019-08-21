@@ -41,7 +41,7 @@
     "passport-localapikey": "0.0.3",
     "pg": "7.12.1",
     "pg-hstore": "2.3.3",
-    "phantom": "6.2.0",
+    "phantom": "6.3.0",
     "puppeteer": "1.19.0",
     "raven": "2.6.4",
     "redis": "2.8.0",
