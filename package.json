@@ -50,10 +50,10 @@
     "snyk": "1.222.1"
   },
   "devDependencies": {
-    "@babel/core": "7.5.5",
-    "@babel/plugin-transform-runtime": "7.5.5",
-    "@babel/preset-env": "7.5.5",
-    "@babel/runtime": "7.5.5",
+    "@babel/core": "7.6.0",
+    "@babel/plugin-transform-runtime": "7.6.0",
+    "@babel/preset-env": "7.6.0",
+    "@babel/runtime": "7.6.0",
     "chai": "4.2.0",
     "debug": "4.1.1",
     "del": "5.1.0",
