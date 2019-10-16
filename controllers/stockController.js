@@ -1,5 +1,4 @@
 const got = require('got');
-const cheerio = require('cheerio');
 const { DateTime } = require('luxon');
 const db = require('../models');
 const ical = require('../helpers/iCalGenerator');
@@ -69,32 +68,34 @@ const getDividendICal = async (req, res) => {
 
     await Promise.all(
         list.map(async (s) => {
-            const url = `https://m.nasdaq.com/symbol/${s.symbol}/dividend-history`;
-            const response = await got(url);
+            const url = `https://www.nasdaq.com/market-activity/stocks/${s.symbol}/dividend-history`;
+            const api = `https://api.nasdaq.com/api/quote/${s.symbol}/dividends?assetclass=stocks`;
+            const response = await got(api);
 
-            const $ = cheerio.load(response.body);
-            const row = $($('#table-saw > tbody > tr')[0]).find('td');
+            const rows = JSON.parse(response.body).data.dividends.rows;
 
-            if (row.length === 0) {
+            if (rows === null) {
                 return Promise.resolve();
             }
-            const paymentDate = DateTime.fromISO($(row[4]).text());
+            const row = rows[0];
 
-            const exDate = DateTime.fromISO($(row[0]).text());
+            const paymentDate = DateTime.fromFormat(
+                row.paymentDate,
+                'MM/dd/yyyy'
+            );
+            const exDate = DateTime.fromFormat(row.exOrEffDate, 'MM/dd/yyyy');
 
             s.share = s.share === 0 ? 1 : s.share;
-
             events.push({
                 url,
                 allDay: true,
                 start: exDate.plus({ days: 1 }).toISODate(),
                 end: exDate.plus({ days: 1 }).toISODate(),
-                summary: `📅 ${$('h1')
-                    .text()
-                    .replace(' Dividend Date & History', '')} ExDate`,
-                description: `Dividend: ${($(row[1]).text() * s.share).toFixed(
-                    2
-                )} to be paid on ${paymentDate.toISODate()}`,
+                summary: `📅 ${s.symbol} ExDate`,
+                description: `Dividend: $ ${(
+                    parseFloat(row.amount.replace('$', '')) * s.share
+                ).toFixed(4)} to be paid on ${paymentDate
+                    .toISODate()}`,
             });
 
             events.push({
@@ -102,12 +103,10 @@ const getDividendICal = async (req, res) => {
                 allDay: true,
                 start: paymentDate.plus({ days: 1 }).toISODate(),
                 end: paymentDate.plus({ days: 1 }).toISODate(),
-                summary: `💰 ${$('h1')
-                    .text()
-                    .replace(' Dividend Date & History', '')} Payment Date`,
-                description: `${$(row[1]).text()} per share, total dividend: ${(
-                    $(row[1]).text() * s.share
-                ).toFixed(2)}`,
+                summary: `💰 ${s.symbol} Payment Date`,
+                description: `${row.amount} per share, total dividend: $${(
+                    parseFloat(row.amount.replace('$', '')) * s.share
+                ).toFixed(4)}`,
             });
 
             return Promise.resolve();
