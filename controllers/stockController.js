@@ -85,7 +85,7 @@ const getDividendICal = async (req, res) => {
             );
             const exDate = DateTime.fromFormat(row.exOrEffDate, 'MM/dd/yyyy');
 
-            s.share = s.share === 0 ? 1 : s.share;
+            const share = s.share === 0 ? share : s.share;
             events.push({
                 url,
                 allDay: true,
@@ -93,9 +93,8 @@ const getDividendICal = async (req, res) => {
                 end: exDate.plus({ days: 1 }).toISODate(),
                 summary: `📅 ${s.symbol} ExDate`,
                 description: `Dividend: $ ${(
-                    parseFloat(row.amount.replace('$', '')) * s.share
-                ).toFixed(4)} to be paid on ${paymentDate
-                    .toISODate()}`,
+                    parseFloat(row.amount.replace('$', '')) * share
+                ).toFixed(4)} to be paid on ${paymentDate.toISODate()}`,
             });
 
             events.push({
@@ -105,7 +104,7 @@ const getDividendICal = async (req, res) => {
                 end: paymentDate.plus({ days: 1 }).toISODate(),
                 summary: `💰 ${s.symbol} Payment Date`,
                 description: `${row.amount} per share, total dividend: $${(
-                    parseFloat(row.amount.replace('$', '')) * s.share
+                    parseFloat(row.amount.replace('$', '')) * share
                 ).toFixed(4)}`,
             });
 
