@@ -79,36 +79,43 @@ const getDividendICal = async (req, res) => {
             }
             const row = rows[0];
 
+            if (row.paymentDate === 'N/A' || row.exDate === 'N/A') {
+                return Promise.resolve();
+            }
+
             const paymentDate = DateTime.fromFormat(
                 row.paymentDate,
                 'MM/dd/yyyy'
             );
             const exDate = DateTime.fromFormat(row.exOrEffDate, 'MM/dd/yyyy');
 
-            s.share = s.share === 0 ? 1 : s.share;
+            let share;
+
+            if (s.share === 0) {
+                share = 1;
+            }
+
             events.push({
                 url,
                 allDay: true,
-                start: exDate.plus({ days: 1 }).toISODate(),
-                end: exDate.plus({ days: 1 }).toISODate(),
+                start: exDate.plus({ days: 1 }).toJSDate(),
+                end: exDate.plus({ days: 1 }).toJSDate(),
                 summary: `📅 ${s.symbol} ExDate`,
                 description: `Dividend: $ ${(
-                    parseFloat(row.amount.replace('$', '')) * s.share
-                ).toFixed(4)} to be paid on ${paymentDate
-                    .toISODate()}`,
+                    parseFloat(row.amount.replace('$', '')) * share
+                ).toFixed(4)} to be paid on ${paymentDate.toISODate()}`,
             });
 
             events.push({
                 url,
                 allDay: true,
-                start: paymentDate.plus({ days: 1 }).toISODate(),
-                end: paymentDate.plus({ days: 1 }).toISODate(),
+                start: paymentDate.plus({ days: 1 }).toJSDate(),
+                end: paymentDate.plus({ days: 1 }).toJSDate(),
                 summary: `💰 ${s.symbol} Payment Date`,
                 description: `${row.amount} per share, total dividend: $${(
-                    parseFloat(row.amount.replace('$', '')) * s.share
+                    parseFloat(row.amount.replace('$', '')) * share
                 ).toFixed(4)}`,
             });
-
             return Promise.resolve();
         })
     );
