@@ -1459,12 +1459,7 @@ bluebird@3.4.6:
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.4.6.tgz#01da8d821d87813d158967e743d5fe6c62cf8c0f"
   integrity sha1-AdqNgh2HgT0ViWfnQ9X+bGLPjA8=
 
-bluebird@3.7.2:
-  version "3.7.2"
-  resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
-  integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
-
-bluebird@^3.5.0:
+bluebird@3.7.2, bluebird@^3.5.0:
   version "3.7.2"
   resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
@@ -5427,10 +5422,10 @@ lru-queue@0.1:
   dependencies:
     es5-ext "~0.10.2"
 
-luxon@1.21.2:
-  version "1.21.2"
-  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.21.2.tgz#2df6d2bba855a12953e076e855604aa3482677a6"
-  integrity sha512-yshwnlkA79WfC24/BC9Rd1n0mhorP22Sc7GYn0puRU6wD/douCgNJIzI9qQBuT9m2/bU+n9v1RflVNE4rMPPxQ==
+luxon@1.21.3:
+  version "1.21.3"
+  resolved "https://registry.yarnpkg.com/luxon/-/luxon-1.21.3.tgz#f1d5c2a7e855d039836cf4954f883ecac8fc4727"
+  integrity sha512-lLRwNcNnkZLuv13A1FUuZRZmTWF7ro2ricYvb0L9cvBYHPvZhQdKwrYnZzi103D2XKmlVmxWpdn2wfIiOt2YEw==
 
 macos-release@^2.2.0:
   version "2.3.0"
