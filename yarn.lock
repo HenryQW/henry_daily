@@ -4343,10 +4343,10 @@ husky@3.1.0:
     run-node "^1.0.0"
     slash "^3.0.0"
 
-ical-generator@1.9.0:
-  version "1.9.0"
-  resolved "https://registry.yarnpkg.com/ical-generator/-/ical-generator-1.9.0.tgz#f75df34ba5e43908d1f6bd9304e56d552c41c19c"
-  integrity sha512-GUVpf7G/5Qx7V3KzU22V8hRt9J1q1L+m9nDOSVCvdHHmlAqXrEvlAyTmYJmQ/sT8ceY76uAAxPPzbhUuKVAfNg==
+ical-generator@1.9.1:
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/ical-generator/-/ical-generator-1.9.1.tgz#3dc6dabef60d406c654bb7105b83d1f1f6c6f7a9"
+  integrity sha512-6NfZdHb1WexdFNjGiukbuT1ePmDxlket+x8UjMvpyK7kCLAq1AgVGgdEEQrBLYkbwnuOhdCEKT/kLv3qOeTSFQ==
   dependencies:
     moment-timezone "^0.5.27"
 
