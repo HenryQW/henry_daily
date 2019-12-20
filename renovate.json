@@ -10,6 +10,10 @@
       "extends": [
         "schedule:monthly"
       ]
+    },
+    {
+      "updateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
     }
   ]
 }
