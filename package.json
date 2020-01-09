@@ -68,7 +68,7 @@
     "gulp-sass": "4.0.2",
     "gulp-sourcemaps": "2.6.5",
     "gulp-uglify": "3.0.2",
-    "husky": "4.0.3",
+    "husky": "4.0.4",
     "jade": "1.11.0",
     "mocha": "7.0.0",
     "nodemon": "2.0.2",
