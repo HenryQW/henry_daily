@@ -72,7 +72,7 @@
     "jade": "1.11.0",
     "mocha": "7.1.1",
     "nodemon": "2.0.2",
-    "prettier": "2.0.0"
+    "prettier": "2.0.2"
   },
   "snyk": true
 }
