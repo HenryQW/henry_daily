@@ -52,7 +52,7 @@
   "devDependencies": {
     "@babel/core": "7.9.0",
     "@babel/plugin-transform-runtime": "7.9.0",
-    "@babel/preset-env": "7.9.0",
+    "@babel/preset-env": "7.9.5",
     "@babel/runtime": "7.9.2",
     "chai": "4.2.0",
     "debug": "4.1.1",
