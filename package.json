@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.13.0",
-    "ajv": "6.12.0",
+    "ajv": "6.12.1",
     "axios": "0.19.2",
     "bluebird": "3.7.2",
     "body-parser": "1.19.0",
