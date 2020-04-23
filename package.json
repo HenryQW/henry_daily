@@ -65,7 +65,7 @@
     "gulp-babel": "8.0.0",
     "gulp-browserify": "0.5.1",
     "gulp-concat": "2.6.1",
-    "gulp-sass": "4.0.2",
+    "gulp-sass": "4.1.0",
     "gulp-sourcemaps": "2.6.5",
     "gulp-uglify": "3.0.2",
     "husky": "4.2.5",
