@@ -16,8 +16,10 @@ env:
 before_script:
   - psql -c 'create database daily_test;' -U postgres
 
+script: 'true'
+
 before_install:
-  - yarn
+  - yarn install
 
 install:
   - chmod a+x deploy.sh && ./deploy.sh
