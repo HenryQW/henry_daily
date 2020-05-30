@@ -40,10 +40,10 @@
     "serve-favicon": "2.5.0"
   },
   "devDependencies": {
-    "@babel/core": "7.10.1",
+    "@babel/core": "7.10.2",
     "@babel/plugin-transform-runtime": "7.10.1",
-    "@babel/preset-env": "7.10.1",
-    "@babel/runtime": "7.10.1",
+    "@babel/preset-env": "7.10.2",
+    "@babel/runtime": "7.10.2",
     "debug": "4.1.1",
     "del": "5.1.0",
     "dotenv": "8.2.0",
