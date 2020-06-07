@@ -4243,12 +4243,12 @@ husky@4.2.5:
     slash "^3.0.0"
     which-pm-runs "^1.0.0"
 
-ical-generator@1.10.0:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/ical-generator/-/ical-generator-1.10.0.tgz#5a6301848df4270991f05524bf033b2725c70314"
-  integrity sha512-LkHuIjbpPnXvK99yc8rpcxMaPJ5RMVxH5jzswCgDyHJ5TwBFrPtOJmTnYl1QIwV04qmmWdqijAiHPKSi1OBQ/A==
+ical-generator@1.11.0:
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/ical-generator/-/ical-generator-1.11.0.tgz#21abb03683b573d99f13be67603159246d4c0e8a"
+  integrity sha512-KFkzQ9R2Gs6Ngecap+0aimkrj+SKbh8kXQGysZLcfar3pBc3PELvbDSJQG2XuapUh/1RZMgp4EuZyuni5/8SqQ==
   dependencies:
-    moment-timezone "^0.5.28"
+    moment-timezone "^0.5.31"
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24:
   version "0.4.24"
@@ -5428,10 +5428,17 @@ module-deps@~2.0.0:
     stream-combiner "~0.1.0"
     through2 "~0.4.1"
 
-moment-timezone@^0.5.21, moment-timezone@^0.5.28:
+moment-timezone@^0.5.21:
   version "0.5.28"
   resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.28.tgz#f093d789d091ed7b055d82aa81a82467f72e4338"
   integrity sha512-TDJkZvAyKIVWg5EtVqRzU97w0Rb0YVbfpqyjgu6GwXCAohVRqwZjf4fOzDE6p1Ch98Sro/8hQQi65WDXW5STPw==
+  dependencies:
+    moment ">= 2.9.0"
+
+moment-timezone@^0.5.31:
+  version "0.5.31"
+  resolved "https://registry.yarnpkg.com/moment-timezone/-/moment-timezone-0.5.31.tgz#9c40d8c5026f0c7ab46eda3d63e49c155148de05"
+  integrity sha512-+GgHNg8xRhMXfEbv81iDtrVeTcWt0kWmTEY1XQK14dICTXnWJnT0dxdlPspwqF3keKMVPXwayEsk1DI0AA/jdA==
   dependencies:
     moment ">= 2.9.0"
 
