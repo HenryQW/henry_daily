@@ -30,7 +30,7 @@
     "node-sass": "4.14.1",
     "passport": "0.4.1",
     "passport-localapikey": "0.0.3",
-    "pg": "8.2.2",
+    "pg": "8.3.0",
     "pg-hstore": "2.3.3",
     "phantom": "6.3.0",
     "puppeteer": "5.0.0",
