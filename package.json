@@ -9,7 +9,7 @@
     "format": "eslint \"**/*.js\" --fix && prettier \"**/*.js\" --write"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "5.13.1",
+    "@fortawesome/fontawesome-free": "5.14.0",
     "ajv": "6.12.3",
     "axios": "0.19.2",
     "bluebird": "3.7.2",
