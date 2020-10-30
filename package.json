@@ -14,7 +14,7 @@
     "axios": "0.21.0",
     "bluebird": "3.7.2",
     "body-parser": "1.19.0",
-    "chart.js": "2.9.3",
+    "chart.js": "2.9.4",
     "cheerio": "1.0.0-rc.3",
     "cookie-parser": "1.4.5",
     "express": "4.17.1",
