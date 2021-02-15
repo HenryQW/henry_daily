@@ -36,7 +36,7 @@
     "puppeteer": "7.1.0",
     "raven": "2.6.4",
     "redis": "3.0.2",
-    "sequelize": "6.3.5",
+    "sequelize": "6.5.0",
     "serve-favicon": "2.5.0"
   },
   "devDependencies": {
