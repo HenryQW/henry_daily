@@ -35,7 +35,7 @@
     "phantom": "6.3.0",
     "puppeteer": "8.0.0",
     "raven": "2.6.4",
-    "redis": "3.0.2",
+    "redis": "3.1.0",
     "sequelize": "6.6.2",
     "serve-favicon": "2.5.0"
   },
